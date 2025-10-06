@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 186" width="300px" height="186px" xmlns:bx="https://boxy-svg.com">
+  <rect width="300" height="186" style="paint-order: fill; fill-rule: nonzero; fill: #b52c57ff; stroke-width: 1;"/>
+  <rect x="10" y="9" width="280" height="168" style="fill: #e4415fff; stroke-width: 1;"/>
+  <g transform="matrix(1, 0, 0, 1, -89.3570035898239, -51.000016018748504)">
+    <rect x="175.795" y="140" width="114" height="8" style="fill: #fff;"/>
+    <ellipse style="fill: rgb(228, 65, 95); stroke: #fff; stroke-width: 8;" cx="190" cy="144" rx="17.054" ry="17.054"/>
+    <ellipse style="fill: rgb(228, 65, 95); stroke: #fff; stroke-width: 8;" cx="288.714" cy="144" rx="17.054" ry="17.054"/>
+    <path d="M 284.205 79.33 Q 287.381 73.702 290.556 79.33 L 305.377 105.595 Q 308.553 111.223 302.201 111.223 L 272.56 111.223 Q 266.208 111.223 269.384 105.595 Z" bx:shape="triangle 266.208 73.702 42.345 37.521 0.5 0.15 1@a0704526" style="fill: rgb(255, 255, 255); stroke: rgb(255, 255, 255); stroke-width: 8; stroke-linecap: round; transform-box: fill-box; transform-origin: 50% 50%;" transform="matrix(0, 1, -1, 0, -48.468009, 50.130506)"/>
+  </g>
+</svg>
