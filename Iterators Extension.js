@@ -1,5 +1,9 @@
 (function(Scratch) {
     'use strict';
+    // // Is this part necessary?
+    // if (!Scratch.extensions.unsandboxed) {
+    //     throw new Error('\'Iterators\' must run unsandboxed!');
+    // }
 
     const menuIconURI = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgd2lkdGg9IjIwcHgiIGhlaWdodD0iMjBweCIgeG1sbnM6Yng9Imh0dHBzOi8vYm94eS1zdmcuY29tIj4KICA8ZWxsaXBzZSBzdHlsZT0iZmlsbDogI2I1MmM1N2ZmOyBzdHJva2Utd2lkdGg6IDE7IiBjeD0iMTAiIGN5PSIxMCIgcng9IjEwIiByeT0iMTAiIHRyYW5zZm9ybT0ibWF0cml4KDAuOTk5OTk5OTk5OTk5OTk5OSwgMCwgMCwgMC45OTk5OTk5OTk5OTk5OTk5LCAtMy41NTI3MTM2Nzg4MDA1MDFlLTE1LCAtMS43NzYzNTY4Mzk0MDAyNTA1ZS0xNSkiLz4KICA8ZWxsaXBzZSBzdHlsZT0iZmlsbDogI2U0NDE1ZmZmOyBzdHJva2Utd2lkdGg6IDE7IiBjeD0iMTAiIGN5PSIxMCIgcng9IjkiIHJ5PSI5IiB0cmFuc2Zvcm09Im1hdHJpeCgwLjk5OTk5OTk5OTk5OTk5OTksIDAsIDAsIDAuOTk5OTk5OTk5OTk5OTk5OSwgLTMuNTUyNzEzNjc4ODAwNTAxZS0xNSwgLTEuNzc2MzU2ODM5NDAwMjUwNWUtMTUpIi8+CiAgPGcgdHJhbnNmb3JtPSJtYXRyaXgoMC4xMTI1OTMwMDI2MTczNTkxNiwgMCwgMCwgMC4xMTI1OTMwMDI2MTczNTkxNiwgLTE2Ljk0OTkyNDcyMTU2NzY5NywgLTYuMjEzMzk0MjU3NjI1ODUwNSkiIHN0eWxlPSIiPgogICAgPHJlY3QgeD0iMTc1Ljc5NSIgeT0iMTQwIiB3aWR0aD0iMTE0IiBoZWlnaHQ9IjgiIHN0eWxlPSJmaWxsOiAjZmZmOyIvPgogICAgPGVsbGlwc2Ugc3R5bGU9ImZpbGw6IHJnYigyMjgsIDY1LCA5NSk7IHN0cm9rZTogI2ZmZjsgc3Ryb2tlLXdpZHRoOiA4OyIgY3g9IjE5MCIgY3k9IjE0NCIgcng9IjE3LjA1NCIgcnk9IjE3LjA1NCIvPgogICAgPGVsbGlwc2Ugc3R5bGU9ImZpbGw6IHJnYigyMjgsIDY1LCA5NSk7IHN0cm9rZTogI2ZmZjsgc3Ryb2tlLXdpZHRoOiA4OyIgY3g9IjI4OC43MTQiIGN5PSIxNDQiIHJ4PSIxNy4wNTQiIHJ5PSIxNy4wNTQiLz4KICAgIDxwYXRoIGQ9Ik0gMjg0LjIwNSA3OS4zMyBRIDI4Ny4zODEgNzMuNzAyIDI5MC41NTYgNzkuMzMgTCAzMDUuMzc3IDEwNS41OTUgUSAzMDguNTUzIDExMS4yMjMgMzAyLjIwMSAxMTEuMjIzIEwgMjcyLjU2IDExMS4yMjMgUSAyNjYuMjA4IDExMS4yMjMgMjY5LjM4NCAxMDUuNTk1IFoiIGJ4OnNoYXBlPSJ0cmlhbmdsZSAyNjYuMjA4IDczLjcwMiA0Mi4zNDUgMzcuNTIxIDAuNSAwLjE1IDFAYTA3MDQ1MjYiIHN0eWxlPSJmaWxsOiByZ2IoMjU1LCAyNTUsIDI1NSk7IHN0cm9rZTogcmdiKDI1NSwgMjU1LCAyNTUpOyBzdHJva2Utd2lkdGg6IDg7IHN0cm9rZS1saW5lY2FwOiByb3VuZDsgdHJhbnNmb3JtLWJveDogZmlsbC1ib3g7IHRyYW5zZm9ybS1vcmlnaW46IDUwJSA1MCU7IiB0cmFuc2Zvcm09Im1hdHJpeCgwLCAxLCAtMSwgMCwgLTQ4LjQ2ODAwOSwgNTAuMTMwNTA2KSIvPgogIDwvZz4KPC9zdmc+";
 
@@ -30,10 +34,9 @@
     class IteratorType {
         customId = "divIterator"
         
-        constructor(kind, data, next) {
+        constructor(kind, gen) {
             this.kind = kind
-            this.data = data
-            this.next = next
+            this.gen = gen()
         }
 
         toString() {
@@ -45,10 +48,6 @@
             root.style.display = 'flex'
             root.appendChild(span(`${this.kind} Iterator`))
             return root
-        }
-
-        getNext() {
-            return this.next(this.data)
         }
     }
     class AdapterType {
@@ -71,7 +70,7 @@
         }
 
         adaptIter(iter) {
-            return this.cons(iter)
+            return new IteratorType(this.kind, this.cons(iter))
         }
     }
 
@@ -95,7 +94,7 @@
             blocks: [
                 {
                     opcode: 'iterNext',
-                    text: 'next from [iter]',
+                    text: 'next item from [iter]',
                     disableMonitor: true,
                     blockType: BlockType.REPORTER,
                     blockShape: BlockShape.ROUND,
@@ -160,7 +159,7 @@
                 },
                 {
                     opcode: 'iterAdapterEnum',
-                    text: 'enumerate elements',
+                    text: 'enumerate items',
                     disableMonitor: true,
                     blockType: BlockType.REPORTER,
                     blockShape: BlockShape.SQUARE,
@@ -168,7 +167,7 @@
                 },
                 {
                     opcode: 'iterAdapterCycle',
-                    text: 'cycle elements',
+                    text: 'cycle items',
                     disableMonitor: true,
                     blockType: BlockType.REPORTER,
                     blockShape: BlockShape.SQUARE,
@@ -176,7 +175,7 @@
                 },
                 {
                     opcode: 'iterAdapterTake',
-                    text: 'take [count] elements',
+                    text: 'take [count] items',
                     disableMonitor: true,
                     blockType: BlockType.REPORTER,
                     blockShape: BlockShape.SQUARE,
@@ -187,7 +186,7 @@
                 },
                 {
                     opcode: 'iterAdapterSkip',
-                    text: 'skip [count] elements',
+                    text: 'skip [count] items',
                     disableMonitor: true,
                     blockType: BlockType.REPORTER,
                     blockShape: BlockShape.SQUARE,
@@ -225,7 +224,7 @@
                 },
                 {
                     opcode: 'iterTermCount',
-                    text: '[iter] finally count elements',
+                    text: '[iter] finally count items',
                     disableMonitor: true,
                     blockType: BlockType.REPORTER,
                     blockShape: BlockShape.ROUND,
@@ -255,8 +254,8 @@
                 },
                 '---',
                 {
-                    opcode: 'iterTermForEachE',
-                    text: 'element',
+                    opcode: 'iterTermForEachI',
+                    text: 'item',
                     blockType: BlockType.REPORTER,
                     hideFromPalette: true,
                     allowDropAnywhere: true,
@@ -264,12 +263,13 @@
                 },
                 {
                     opcode: 'iterTermForEach',
-                    text: 'for [E] of [iter]',
+                    text: 'for [I] of [iter]',
                     blockType: BlockType.LOOP,
+                    branchCount: 1,
                     arguments: {
                         iter: {shape: BlockShape.SQUARE},
-                        E: {fillIn: 'iterTermForEachE'},
-                    }
+                        I: {fillIn: 'iterTermForEachI'},
+                    },
                 },
 
                 {
@@ -300,87 +300,202 @@
 
         getCompileInfo = () => ({
             ir: {
+                iterNext: (generator, block) => {
+                    generator.script.yields = true
+                    return {
+                        kind: 'input',
+                        iter: generator.descendInputOfBlock(block, 'iter'),
+                    }
+                },
                 iterAdapterMap: (generator, block) => {
-                    //generator.script.yields = true
+                    generator.script.yields = true
                     return {
                         kind: 'input',
                         func: generator.descendInputOfBlock(block, 'func'),
                     }
                 },
                 iterAdapterFilter: (generator, block) => {
-                    //generator.script.yields = true
+                    generator.script.yields = true
                     return {
                         kind: 'input',
                         pred: generator.descendInputOfBlock(block, 'pred'),
                     }
                 },
                 iterTermFold: (generator, block) => {
-                    //generator.script.yields = true
+                    generator.script.yields = true
                     return {
                         kind: 'input',
                         iter: generator.descendInputOfBlock(block, 'iter'),
                         init: generator.descendInputOfBlock(block, 'init'),
                         fold: generator.descendInputOfBlock(block, 'fold'),
                     }
+                },
+                iterTermCount: (generator, block) => {
+                    generator.script.yields = true
+                    return {
+                        kind: 'input',
+                        iter: generator.descendInputOfBlock(block, 'iter'),
+                    }
+                },
+                iterTermForEach: (generator, block) => {
+                    generator.script.yields = true
+                    return {
+                        kind: 'stack',
+                        iter: generator.descendInputOfBlock(block, 'iter'),
+                        substack: generator.descendSubstack(block, 'SUBSTACK')
+                    }
+                },
+                iterCollectToArray: (generator, block) => {
+                    generator.script.yields = true
+                    return {
+                        kind: 'input',
+                        iter: generator.descendInputOfBlock(block, 'iter')
+                    }
                 }
             },
             js: {
-                iterAdapterMap: (node, compiler, imports) => {
-                    const originalSource = compiler.source;
-                    compiler.source = `(yield* (function*() {\n`
-                    compiler.source += `  const func = runtime.vm.jwLambda.Type.toLambda(${compiler.descendInput(node.func).asUnknown()});\n`;
-                    compiler.source += `  return new runtime.vm.divIterator.AdapterType("Map", iter => new runtime.vm.divIterator.IteratorType("Map", {iter}, self => {\n`;
-                    compiler.source += `    const next = self.iter.getNext();\n`
-                    compiler.source += `    return next.length === 0 ? [] : [func.execute(next[0], thread, target, runtime, stage).next().value];\n`
-                    compiler.source += `  }));\n`
-                    compiler.source += `})())`
-                    const stackSource = compiler.source;
-                    compiler.source = originalSource;
-                    return new imports.TypedInput(stackSource, imports.TYPE_UNKNOWN);
+                iterNext: (node, compiler, imports) => new imports.TypedInput(/* js */ `
+                    (yield* (function*() {
+                        const iter = ${compiler.descendInput(node.iter).asUnknown()};
+                        let next = iter.gen.next();
+                        if(next.done) return new vm.jwArray.Type([])
+                        while(next.value === undefined) {
+                            yield;
+                            next = iter.gen.next();
+                            if(next.done) return new vm.jwArray.Type([]);
+                        }
+                        return new vm.jwArray.Type([next.value])
+                    })())
+                    `, imports.TYPE_UNKNOWN),
+                iterAdapterMap: (node, compiler, imports) => new imports.TypedInput(/* js */ `
+                    (yield* (function*() {
+                        const func = vm.jwLambda.Type.toLambda(${compiler.descendInput(node.func).asUnknown()});
+                        return new vm.divIterator.AdapterType("Map", iter => function*() {
+                            let next = iter.gen.next();
+                            while(!next.done) {
+                                while(next.value === undefined) {
+                                    yield;
+                                    next = iter.gen.next();
+                                    if(next.done) return;
+                                }
+                                yield yield* func.execute(next.value, thread, target, runtime, stage);
+                                next = iter.gen.next();
+                            }
+                        })
+                    })())
+                    `, imports.TYPE_UNKNOWN),
+                iterAdapterFilter: (node, compiler, imports) => new imports.TypedInput(/* js */ `
+                    (yield* (function*() {
+                        const pred = vm.jwLambda.Type.toLambda(${compiler.descendInput(node.pred).asUnknown()});
+                        return new vm.divIterator.AdapterType("Filter", iter => function*() {
+                            let next = iter.gen.next();
+                            while(!next.done) {
+                                while(next.value === undefined) {
+                                    yield;
+                                    next = iter.gen.next();
+                                    if(next.done) return;
+                                }
+                                let cond = yield* pred.execute(next.value, thread, target, runtime, stage);
+                                if(cond) yield next.value
+                                next = iter.gen.next();
+                            }
+                        })
+                    })())
+                    `, imports.TYPE_UNKNOWN),
+                iterTermCount: (node, compiler, imports) => new imports.TypedInput(/* js */ `
+                    (yield* (function*() {
+                        const iter = ${compiler.descendInput(node.iter).asUnknown()}
+                        let count = 0;
+                        let next = iter.gen.next();
+                        for(let i = 0; i < vm.divIterator.iteratorLimit && !next.done; i++) {
+                            while(next.value === undefined) {
+                                yield;
+                                next = iter.gen.next();
+                                if(next.done) return count
+                            }
+                            count++;
+                            yield; // Prevent freezing
+                            next = iter.gen.next();
+                        }
+                        return count
+                    })())
+                    `, imports.TYPE_UNKNOWN),
+                iterTermFold: (node, compiler, imports) => new imports.TypedInput(/* js */ `
+                    (yield* (function*() {
+                        const iter = ${compiler.descendInput(node.iter).asUnknown()}
+                        const fold = vm.jwLambda.Type.toLambda(${compiler.descendInput(node.fold).asUnknown()});
+                        let acc = ${compiler.descendInput(node.init).asUnknown()};
+                        let next = iter.gen.next();
+                        for(let i = 0; i < vm.divIterator.iteratorLimit && !next.done; i++) {
+                            while(next.value === undefined) {
+                                yield;
+                                next = iter.gen.next();
+                                if(next.done) return acc;
+                            }
+                            acc = yield* fold.execute(new vm.jwArray.Type([acc, next.value]), thread, target, runtime, stage);
+                            yield; // Prevent freezing
+                            next = iter.gen.next();
+                        }
+                        return acc
+                    })())
+                    `, imports.TYPE_UNKNOWN),
+                // _divIterForEachI
+                iterTermForEach: (node, compiler, imports) => {
+                    const src = compiler.source
+                    compiler.source = ""
+                    compiler.descendStack(node.substack, new imports.Frame(true, "divIterator.iterTermForEach"))
+                    const substack = compiler.source
+                    compiler.source = src + /* js */ `
+                        const iter = ${compiler.descendInput(node.iter).asUnknown()}
+                        let next = iter.gen.next();
+                        thread._divIterForEachI ??= []
+                        thread._divIterForEachI.push(null)
+                        for(let i = 0; i < vm.divIterator.iteratorLimit && !next.done; i++) {
+                            while(next.value === undefined) {
+                                yield;
+                                next = iter.gen.next();
+                                if(next.done) break;
+                            }
+                            if(next.done) break;
+                            console.log(next.value);
+                            thread._divIterForEachI[thread._divIterForEachI.length-1] = next.value;
+                            yield; // Prevent freezing (ALSO PREVENTS CONTINUE FROM EATING YOUR RAM)
+                            next = iter.gen.next();
+                            ${substack}
+                            console.log(next);
+                        }
+                        thread._divIterForEachI.pop()
+                    `
                 },
-                iterAdapterFilter: (node, compiler, imports) => {
-                    const originalSource = compiler.source;
-                    compiler.source = `(yield* (function*() {\n`
-                    compiler.source += `  const pred = runtime.vm.jwLambda.Type.toLambda(${compiler.descendInput(node.pred).asUnknown()});\n`;
-                    compiler.source += `  return new runtime.vm.divIterator.AdapterType("Filter", iter => new runtime.vm.divIterator.IteratorType("Filter", {iter}, self => {\n`;
-                    compiler.source += `    for(let i = 0; i < runtime.vm.divIterator.iteratorLimit; i++) {\n`
-                    compiler.source += `      const next = self.iter.getNext();\n`
-                    compiler.source += `      if(next.length === 0 || pred.execute(next[0], thread, target, runtime, stage).next().value) return next;\n`
-                    compiler.source += `    }\n`
-                    compiler.source += `  }));\n`
-                    compiler.source += `})())`
-                    const stackSource = compiler.source;
-                    compiler.source = originalSource;
-                    return new imports.TypedInput(stackSource, imports.TYPE_UNKNOWN);
-                },
-                iterTermFold: (node, compiler, imports) => {
-                    const originalSource = compiler.source;
-                    compiler.source = `(yield* (function*() {\n`
-                    compiler.source += `  const fold = runtime.vm.jwLambda.Type.toLambda(${compiler.descendInput(node.fold).asUnknown()});\n`;
-                    compiler.source += `  const iter = ${compiler.descendInput(node.iter).asUnknown()};\n`
-                    compiler.source += `  let acc = ${compiler.descendInput(node.init).asUnknown()};\n`
-                    compiler.source += `  for(let i = 0; i < runtime.vm.divIterator.iteratorLimit; i++) {\n`
-                    compiler.source += `    const next = iter.getNext();\n`
-                    compiler.source += `    if(next.length === 0) break;\n`
-                    compiler.source += `    acc = fold.execute(new runtime.vm.jwArray.Type([acc, next[0]]), thread, target, runtime, stage).next().value;\n`
-                    compiler.source += `  }\n`
-                    compiler.source += `  return acc;\n`
-                    compiler.source += `})())`
-                    const stackSource = compiler.source;
-                    compiler.source = originalSource;
-                    return new imports.TypedInput(stackSource, imports.TYPE_UNKNOWN);
-                }
+                iterCollectToArray: (node, compiler, imports) => new imports.TypedInput(/* js */ `
+                    (yield* (function*() {
+                        const iter = ${compiler.descendInput(node.iter).asUnknown()};
+                        let array = []
+                        for(let i = 0; i < vm.divIterator.iteratorLimit; i++) {
+                            let next = iter.gen.next();
+                            if(next.done) break
+                            while(next.value === undefined) {
+                                yield;
+                                next = iter.gen.next();
+                                if(next.done) break;
+                            }
+                            array.push(next.value)
+                            yield; // Prevent freezing
+                        }
+                        return new vm.jwArray.Type(array)
+                    })())
+                    `, imports.TYPE_UNKNOWN),
             }
         })
 
 
-        iterNext({iter}) {
-            return new Array(iter.getNext())
+        iterNext() {
+            return 'noop'
         }
 
         iterRange({start, end}) {
-            return new IteratorType("Range", {idx: 0}, (self) => {
-                return end < start || self.idx + start <= end ? [start + self.idx++] : []
+            return new IteratorType("Range", function*() {
+                for(let i = start; end < start || i <= end; i++) yield i
             })
         }
 
@@ -398,106 +513,114 @@
         }
 
         iterAdapterEnum() {
-            return new AdapterType("Enumerate", iter => new IteratorType("Enumerate", {iter, idx: 1}, self => {
-                const next = self.iter.getNext()
-                return next.length === 0 ? [] : [new Array([self.idx++, next[0]])]
-            }))
+            return new AdapterType("Enumerate", iter => function*() {
+                let next = iter.gen.next()
+                for(let i = 1; !next.done; i++) {
+                    if(next.value === undefined) yield
+                    else yield new Array([i, next.value])
+                    next = iter.gen.next()
+                }
+            })
         }
 
         iterAdapterCycle() {
-            return new AdapterType("Cycle", iter => new IteratorType("Cycle", {iter, buffer: [], idx: 0}, self => {
-                const next = self.iter.getNext()
-                if(next.length === 0) {
-                    if(self.buffer.length === 0) return []
-                    if(self.buffer.length === self.idx) self.idx = 0
-                    return [self.buffer[self.idx++]]
+            return new AdapterType("Cycle", iter => function*() {
+                let buffer = []
+                let idx = 0
+                let next = iter.gen.next()
+                while(!next.done) {
+                    if(next.value != undefined) buffer[idx++] = next.value
+                    yield next.value
+                    next = iter.gen.next()
                 }
-                self.buffer[self.idx++] = next[0]
-                return next
-            }))
+                if(buffer.length === 0) return
+                for(;;) {
+                    idx %= buffer.length
+                    yield buffer[idx++]
+                }
+            })
         }
 
         iterAdapterTake({count}) {
-            return new AdapterType("Take", iter => new IteratorType("Take", {iter, idx: 1}, self => {
-                const next = self.iter.getNext()
-                return self.idx++ > count ? [] : next
-            }))
+            return new AdapterType("Take", iter => function*() {
+                let idx = 0
+                while(idx < count) {
+                    const next = iter.gen.next()
+                    if(next.done) return
+                    if(next.value !== undefined) idx++
+                    yield next.value
+                }
+            })
         }
 
         iterAdapterSkip({count}) {
-            return new AdapterType("Skip", iter => new IteratorType("Skip", {iter, skipped: 0}, self => {
-                while(self.skipped++ < count)
-                    if(self.iter.getNext() === 0) return
-                return self.iter.getNext()
-            }))
+            return new AdapterType("Skip", iter => function*() {
+                let idx = 0
+                while(idx < count) {
+                    const next = iter.gen.next()
+                    if(next.done) return
+                    if(next.value !== undefined) idx++
+                }
+                yield* iter.gen
+            })
         }
 
         iterAdapterChain({iter2}) {
-            return new AdapterType("Chain", iter1 => new IteratorType("Chain", {iter1, iter2, snd: false}, self => {
-                if(self.snd) return self.iter2.getNext()
-                const next = self.iter1.getNext()
-                if(next.length === 0) {
-                    self.snd = true
-                    return self.iter2.getNext()
-                }
-                return next
-            }))
+            return new AdapterType("Chain", iter1 => function*() {
+                yield* iter1.gen
+                yield* iter2.gen
+            })
         }
 
         iterAdapterZip({iter2}) {
-            return new AdapterType("Zip", iter1 => new IteratorType("Zip", {iter1, iter2}, self => {
-                const next1 = self.iter1.getNext()
-                const next2 = self.iter2.getNext()
-                return next1.length === 0 || next2.length === 0 ? [] : [new Array([next1, next2])]
-            }))
+            return new AdapterType("Zip", iter1 => function*() {
+                for(;;) {
+                    let next1 = iter1.gen.next()
+                    if(next1.done) return
+                    while(next1.value === undefined) {
+                        yield
+                        next1 = iter1.gen.next()
+                        if(next1.done) return
+                    }
+                    let next2 = iter2.gen.next()
+                    if(next2.done) return
+                    while(next2.value === undefined) {
+                        yield
+                        next2 = iter2.gen.next()
+                        if(next2.done) return
+                    }
+                    yield new Array([next1.value, next2.value])
+                }
+            })
         }
 
         // Iterator Terminators
         iterTermCount({iter}) {
-            let count = 0
-            while(count < iteratorLimit && iter.getNext().length !== 0) count++
-            return count
+            return 'noop'
         }
 
         iterTermFold() {
             return 'noop'
         }
 
-        iterTermForEachE({}, util) {
-            return util.thread.stackFrames[0].divIterator
+        iterTermForEachI({}, util) {
+            return util.thread._divIterForEachI ? util.thread._divIterForEachI[util.thread._divIterForEachI.length-1] : ""
         }
 
-        iterTermForEach({iter}, util) {
-            if (util.stackFrame.execute) {
-                const { iter } = util.stackFrame;
-                const next = iter.getNext()
-                if(next.length === 0) return;
-                util.thread.stackFrames[0].divIterator = next[0];
-            } else {
-                const next = iter.getNext()
-                if(next.length === 0) return;
-                util.stackFrame.iter = iter;
-                util.stackFrame.execute = true;
-                util.thread.stackFrames[0].divIterator = next[0];
-            }
-            util.startBranch(1, true);
+        iterTermForEach() {
+            return 'noop'
         }
         
         // Array specific blocks
         iterArray({arr}) {
-            return new IteratorType("Array", {array: arr.array, idx: 0}, (self) => {
-                return self.idx < self.array.length ? [self.array[self.idx++]] : []
+            const {array} = arr
+            return new IteratorType("Array", function*() {
+                for(let i = 0; i < array.length; i++) yield array[i]
             })
         }
 
-        iterCollectToArray({iter}) {
-            let array = []
-            for(let i = 0; i < iteratorLimit; i++) {
-                const next = iter.getNext()
-                if(next.length === 0) break;
-                array.push(next[0])
-            }
-            return new Array(array)
+        iterCollectToArray() {
+            return 'noop'
         }
     }
     Scratch.extensions.register(new Extension())
