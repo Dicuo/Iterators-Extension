@@ -357,29 +357,20 @@
                 iterNext: (node, compiler, imports) => new imports.TypedInput(/* js */ `
                     (yield* (function*() {
                         const iter = ${compiler.descendInput(node.iter).asUnknown()};
-                        let next = iter.gen.next();
-                        if(next.done) return new vm.jwArray.Type([])
-                        while(next.value === undefined) {
+                        for(const item of iter.gen) {
+                            if(item !== undefined) return new vm.jwArray.Type([item]);
                             yield;
-                            next = iter.gen.next();
-                            if(next.done) return new vm.jwArray.Type([]);
                         }
-                        return new vm.jwArray.Type([next.value])
+                        return new vm.jwArray.Type([])
                     })())
                     `, imports.TYPE_UNKNOWN),
                 iterAdapterMap: (node, compiler, imports) => new imports.TypedInput(/* js */ `
                     (yield* (function*() {
                         const func = vm.jwLambda.Type.toLambda(${compiler.descendInput(node.func).asUnknown()});
                         return new vm.divIterator.AdapterType("Map", iter => function*() {
-                            let next = iter.gen.next();
-                            while(!next.done) {
-                                while(next.value === undefined) {
-                                    yield;
-                                    next = iter.gen.next();
-                                    if(next.done) return;
-                                }
-                                yield yield* func.execute(next.value, thread, target, runtime, stage);
-                                next = iter.gen.next();
+                            for(const item of iter.gen) {
+                                if(item === undefined) {yield; continue;}
+                                yield yield* func.execute(item, thread, target, runtime, stage);
                             }
                         })
                     })())
@@ -388,14 +379,9 @@
                     (yield* (function*() {
                         const pred = vm.jwLambda.Type.toLambda(${compiler.descendInput(node.pred).asUnknown()});
                         return new vm.divIterator.AdapterType("Filter", iter => function*() {
-                            let next = iter.gen.next();
-                            while(!next.done) {
-                                while(next.value === undefined) {
-                                    yield;
-                                    next = iter.gen.next();
-                                    if(next.done) return;
-                                }
-                                let cond = yield* pred.execute(next.value, thread, target, runtime, stage);
+                            for(const item of iter.gen) {
+                                if(item === undefined) {yield; continue;}
+                                const cond = yield* pred.execute(item, thread, target, runtime, stage);
                                 if(cond) yield next.value
                                 next = iter.gen.next();
                             }
@@ -406,16 +392,10 @@
                     (yield* (function*() {
                         const iter = ${compiler.descendInput(node.iter).asUnknown()}
                         let count = 0;
-                        let next = iter.gen.next();
-                        for(let i = 0; i < vm.divIterator.iteratorLimit && !next.done; i++) {
-                            while(next.value === undefined) {
-                                yield;
-                                next = iter.gen.next();
-                                if(next.done) return count
-                            }
+                        for(const item of iter.gen) {
+                            if(item === undefined) {yield; continue;}
                             count++;
                             yield; // Prevent freezing
-                            next = iter.gen.next();
                         }
                         return count
                     })())
@@ -425,16 +405,10 @@
                         const iter = ${compiler.descendInput(node.iter).asUnknown()}
                         const fold = vm.jwLambda.Type.toLambda(${compiler.descendInput(node.fold).asUnknown()});
                         let acc = ${compiler.descendInput(node.init).asUnknown()};
-                        let next = iter.gen.next();
-                        for(let i = 0; i < vm.divIterator.iteratorLimit && !next.done; i++) {
-                            while(next.value === undefined) {
-                                yield;
-                                next = iter.gen.next();
-                                if(next.done) return acc;
-                            }
-                            acc = yield* fold.execute(new vm.jwArray.Type([acc, next.value]), thread, target, runtime, stage);
+                        for(const item of iter.gen) {
+                            if(item === undefined) {yield; continue;}
+                            acc = yield* fold.execute(new vm.jwArray.Type([acc, item]), thread, target, runtime, stage);
                             yield; // Prevent freezing
-                            next = iter.gen.next();
                         }
                         return acc
                     })())
@@ -450,16 +424,10 @@
                         let next = iter.gen.next();
                         thread._divIterForEachI ??= []
                         thread._divIterForEachI.push(null)
-                        for(let i = 0; i < vm.divIterator.iteratorLimit && !next.done; i++) {
-                            while(next.value === undefined) {
-                                yield;
-                                next = iter.gen.next();
-                                if(next.done) break;
-                            }
-                            if(next.done) break;
-                            thread._divIterForEachI[thread._divIterForEachI.length-1] = next.value;
+                        for(const item of iter.gen) {
+                            if(item === undefined) {yield; continue;}
+                            thread._divIterForEachI[thread._divIterForEachI.length-1] = item;
                             yield; // Prevent freezing (ALSO PREVENTS CONTINUE FROM EATING YOUR RAM)
-                            next = iter.gen.next();
                             ${substack}
                         }
                         thread._divIterForEachI.pop()
@@ -469,15 +437,9 @@
                     (yield* (function*() {
                         const iter = ${compiler.descendInput(node.iter).asUnknown()};
                         let array = []
-                        for(let i = 0; i < vm.divIterator.iteratorLimit; i++) {
-                            let next = iter.gen.next();
-                            if(next.done) break
-                            while(next.value === undefined) {
-                                yield;
-                                next = iter.gen.next();
-                                if(next.done) break;
-                            }
-                            array.push(next.value)
+                        for(const item of iter.gen) {
+                            if(item === undefined) {yield; continue;}
+                            array.push(item)
                             yield; // Prevent freezing
                         }
                         return new vm.jwArray.Type(array)
@@ -512,11 +474,10 @@
 
         iterAdapterEnum() {
             return new AdapterType("Enumerate", iter => function*() {
-                let next = iter.gen.next()
-                for(let i = 1; !next.done; i++) {
-                    if(next.value === undefined) yield
-                    else yield new Array([i, next.value])
-                    next = iter.gen.next()
+                let i = 0;
+                for(const item of iter.gen) {
+                    if(item === undefined) {yield; continue;}
+                    yield new Array([i++, item])
                 }
             })
         }
@@ -525,11 +486,10 @@
             return new AdapterType("Cycle", iter => function*() {
                 let buffer = []
                 let idx = 0
-                let next = iter.gen.next()
-                while(!next.done) {
-                    if(next.value != undefined) buffer[idx++] = next.value
-                    yield next.value
-                    next = iter.gen.next()
+                for(const item of iter.gen) {
+                    if(item === undefined) {yield; continue;}
+                    buffer[idx++] = item
+                    yield item
                 }
                 if(buffer.length === 0) return
                 for(;;) {
@@ -542,11 +502,10 @@
         iterAdapterTake({count}) {
             return new AdapterType("Take", iter => function*() {
                 let idx = 0
-                while(idx < count) {
-                    const next = iter.gen.next()
-                    if(next.done) return
-                    if(next.value !== undefined) idx++
-                    yield next.value
+                for(const item of iter.gen) {
+                    if(item === undefined) {yield; continue;}
+                    if(++idx > count) break;
+                    yield item
                 }
             })
         }
@@ -593,7 +552,7 @@
         }
 
         // Iterator Terminators
-        iterTermCount({iter}) {
+        iterTermCount() {
             return 'noop'
         }
 
