@@ -457,12 +457,10 @@
                                 if(next.done) break;
                             }
                             if(next.done) break;
-                            console.log(next.value);
                             thread._divIterForEachI[thread._divIterForEachI.length-1] = next.value;
                             yield; // Prevent freezing (ALSO PREVENTS CONTINUE FROM EATING YOUR RAM)
                             next = iter.gen.next();
                             ${substack}
-                            console.log(next);
                         }
                         thread._divIterForEachI.pop()
                     `
