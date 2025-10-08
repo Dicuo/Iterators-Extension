@@ -354,97 +354,160 @@
                 }
             },
             js: {
-                iterNext: (node, compiler, imports) => new imports.TypedInput(/* js */ `
-                    (yield* (function*() {
-                        const iter = ${compiler.descendInput(node.iter).asUnknown()};
-                        for(const item of iter.gen) {
-                            if(item !== undefined) return new vm.jwArray.Type([item]);
-                            yield;
-                        }
-                        return new vm.jwArray.Type([])
-                    })())
-                    `, imports.TYPE_UNKNOWN),
-                iterAdapterMap: (node, compiler, imports) => new imports.TypedInput(/* js */ `
-                    (yield* (function*() {
-                        const func = vm.jwLambda.Type.toLambda(${compiler.descendInput(node.func).asUnknown()});
-                        return new vm.divIterator.AdapterType("Map", iter => function*() {
-                            for(const item of iter.gen) {
-                                if(item === undefined) {yield; continue;}
-                                yield yield* func.execute(item, thread, target, runtime, stage);
-                            }
-                        })
-                    })())
-                    `, imports.TYPE_UNKNOWN),
-                iterAdapterFilter: (node, compiler, imports) => new imports.TypedInput(/* js */ `
-                    (yield* (function*() {
-                        const pred = vm.jwLambda.Type.toLambda(${compiler.descendInput(node.pred).asUnknown()});
-                        return new vm.divIterator.AdapterType("Filter", iter => function*() {
-                            for(const item of iter.gen) {
-                                if(item === undefined) {yield; continue;}
-                                const cond = yield* pred.execute(item, thread, target, runtime, stage);
-                                if(cond) yield next.value
-                                next = iter.gen.next();
-                            }
-                        })
-                    })())
-                    `, imports.TYPE_UNKNOWN),
-                iterTermCount: (node, compiler, imports) => new imports.TypedInput(/* js */ `
-                    (yield* (function*() {
-                        const iter = ${compiler.descendInput(node.iter).asUnknown()}
-                        let count = 0;
-                        for(const item of iter.gen) {
-                            if(item === undefined) {yield; continue;}
-                            count++;
-                            yield; // Prevent freezing
-                        }
-                        return count
-                    })())
-                    `, imports.TYPE_UNKNOWN),
-                iterTermFold: (node, compiler, imports) => new imports.TypedInput(/* js */ `
-                    (yield* (function*() {
-                        const iter = ${compiler.descendInput(node.iter).asUnknown()}
-                        const fold = vm.jwLambda.Type.toLambda(${compiler.descendInput(node.fold).asUnknown()});
-                        let acc = ${compiler.descendInput(node.init).asUnknown()};
-                        for(const item of iter.gen) {
-                            if(item === undefined) {yield; continue;}
-                            acc = yield* fold.execute(new vm.jwArray.Type([acc, item]), thread, target, runtime, stage);
-                            yield; // Prevent freezing
-                        }
-                        return acc
-                    })())
-                    `, imports.TYPE_UNKNOWN),
+                iterNext(node, compiler, imports) {
+                    const iter = compiler.localVariables.next(),
+                        item = compiler.localVariables.next();
+                    // Loop Yield
+                    const src = compiler.source
+                    compiler.source = ""; compiler.yieldLoop()
+                    const yielder = compiler.source; compiler.source = src;
+                    return new imports.TypedInput(
+                 /*js*/`(yield* (function*() {\n`
+                      +`    const ${iter} = ${compiler.descendInput(node.iter).asUnknown()};\n`
+                      +`    for(const ${item} of ${iter}.gen) {\n`
+                      +`        if(${item} !== undefined) return new vm.jwArray.Type([${item}]);\n`
+                      +`        ${yielder};\n`
+                      +`    };\n`
+                      +`    return new vm.jwArray.Type([]);\n`
+                      +`})())`
+                    , imports.TYPE_UNKNOWN)
+                },
+                iterAdapterMap(node, compiler, imports) {
+                    const func = compiler.localVariables.next(),
+                        iter = compiler.localVariables.next(),
+                        item = compiler.localVariables.next(),
+                        res = compiler.localVariables.next();
+                    // Loop Yield
+                    const src = compiler.source
+                    compiler.source = ""; compiler.yieldLoop()
+                    const yielder = compiler.source; compiler.source = src;
+                    return new imports.TypedInput(
+                 /*js*/`(yield* (function*() {\n`
+                      +`    const ${func} = vm.jwLambda.Type.toLambda(${compiler.descendInput(node.func).asUnknown()});\n`
+                      +`    return new vm.divIterator.AdapterType("Map", ${iter} => function*() {\n`
+                      +`        console.log("Map");\n`
+                      +`        for(const ${item} of ${iter}.gen) {\n`
+                      +`            console.log(${item});\n`
+                      +`            if(${item} === undefined) {yield; continue;}\n`
+                      +`            const ${res} = yield* ${func}.execute(${item}, thread, target, runtime, stage);\n`
+                      +`            yield ${res};\n`
+                      +`            ${yielder};\n`
+                      +`        };\n`
+                      +`    })\n`
+                      +`})())`
+                    , imports.TYPE_UNKNOWN)
+                },
+                iterAdapterFilter(node, compiler, imports) {
+                    const pred = compiler.localVariables.next(),
+                        iter = compiler.localVariables.next(),
+                        item = compiler.localVariables.next(),
+                        cond = compiler.localVariables.next();
+                    // Loop Yield
+                    const src = compiler.source
+                    compiler.source = ""; compiler.yieldLoop()
+                    const yielder = compiler.source; compiler.source = src;
+                    return new imports.TypedInput(
+                 /*js*/`(yield* (function*() {\n`
+                      +`    const ${pred} = vm.jwLambda.Type.toLambda(${compiler.descendInput(node.pred).asUnknown()});\n`
+                      +`    return new vm.divIterator.AdapterType("Filter", ${iter} => function*() {\n`
+                      +`        for(const ${item} of ${iter}.gen) {\n`
+                      +`            if(${item} === undefined) {yield; continue;}\n`
+                      +`            const ${cond} = yield* ${pred}.execute(${item}, thread, target, runtime, stage);\n`
+                      +`            if(${cond}) yield ${item}\n`
+                      +`            ${yielder};\n`
+                      +`        }\n`
+                      +`    })\n`
+                      +`})())`
+                    , imports.TYPE_UNKNOWN)
+                },
+                iterTermCount(node, compiler, imports) {
+                    const iter = compiler.localVariables.next(),
+                        count = compiler.localVariables.next(),
+                        item = compiler.localVariables.next();
+                    // Loop Yield
+                    const src = compiler.source
+                    compiler.source = ""; compiler.yieldLoop()
+                    const yielder = compiler.source; compiler.source = src;
+                    return new imports.TypedInput(
+                 /*js*/`(yield* (function*() {\n`
+                      +`    const ${iter} = ${compiler.descendInput(node.iter).asUnknown()};\n`
+                      +`    let ${count} = 0;\n`
+                      +`    for(const ${item} of ${iter}.gen) {\n`
+                      +`        if(${item} === undefined) {yield; continue;};\n`
+                      +`        ${count}++;\n`
+                      +`        ${yielder};\n`
+                      +`    };\n`
+                      +`    return ${count};\n`
+                      +`})())\n`
+                    , imports.TYPE_UNKNOWN)
+                },
+                iterTermFold(node, compiler, imports) {
+                    const iter = compiler.localVariables.next(),
+                        fold = compiler.localVariables.next(),
+                        acc = compiler.localVariables.next(),
+                        item = compiler.localVariables.next();
+                    // Loop Yield
+                    const src = compiler.source
+                    compiler.source = ""; compiler.yieldLoop()
+                    const yielder = compiler.source; compiler.source = src;
+                    return new imports.TypedInput(
+                /*js*/ `(yield* (function*() {\n`
+                      +`    const ${iter} = ${compiler.descendInput(node.iter).asUnknown()};\n`
+                      +`    const ${fold} = vm.jwLambda.Type.toLambda(${compiler.descendInput(node.fold).asUnknown()});\n`
+                      +`    let ${acc} = ${compiler.descendInput(node.init).asUnknown()};\n`
+                      +`    console.log("Fold");\n`
+                      +`    for(const ${item} of ${iter}.gen) {\n`
+                      +`        console.log(${item});\n`
+                      +`        if(${item} === undefined) {yield; continue;};\n`
+                      +`        console.log(${acc} + " + " + ${item});\n`
+                      +`        ${acc} = yield* ${fold}.execute(new vm.jwArray.Type([${acc}, ${item}]), thread, target, runtime, stage);\n`
+                      +`        ${yielder};\n`
+                      +`    };\n`
+                      +`    return ${acc};\n`
+                      +`})())`
+                    , imports.TYPE_UNKNOWN)
+                },
                 // _divIterForEachI
                 iterTermForEach: (node, compiler, imports) => {
+                    const iter = compiler.localVariables.next(),
+                        item = compiler.localVariables.next();
                     const src = compiler.source
                     compiler.source = ""
                     compiler.descendStack(node.substack, new imports.Frame(true, "divIterator.iterTermForEach"))
+                    compiler.yieldLoop()
                     const substack = compiler.source
-                    compiler.source = src + /* js */ `
-                        const iter = ${compiler.descendInput(node.iter).asUnknown()}
-                        let next = iter.gen.next();
-                        thread._divIterForEachI ??= []
-                        thread._divIterForEachI.push(null)
-                        for(const item of iter.gen) {
-                            if(item === undefined) {yield; continue;}
-                            thread._divIterForEachI[thread._divIterForEachI.length-1] = item;
-                            yield; // Prevent freezing (ALSO PREVENTS CONTINUE FROM EATING YOUR RAM)
-                            ${substack}
-                        }
-                        thread._divIterForEachI.pop()
-                    `
+                    compiler.source = src + 
+                 /*js*/`const ${iter} = ${compiler.descendInput(node.iter).asUnknown()};\n`
+                +/*js*/`thread._divIterForEachI ??= [];\n`
+                +/*js*/`thread._divIterForEachI.push(null);\n`
+                +/*js*/`for(const ${item} of ${iter}.gen) {\n`
+                      +`    if(${item} === undefined) {yield; continue;};\n`
+                      +`    thread._divIterForEachI[thread._divIterForEachI.length-1] = ${item};\n`
+                      +`    ${substack}\n`
+                      +`};\n`
+                +/*js*/`thread._divIterForEachI.pop();`
                 },
-                iterCollectToArray: (node, compiler, imports) => new imports.TypedInput(/* js */ `
-                    (yield* (function*() {
-                        const iter = ${compiler.descendInput(node.iter).asUnknown()};
-                        let array = []
-                        for(const item of iter.gen) {
-                            if(item === undefined) {yield; continue;}
-                            array.push(item)
-                            yield; // Prevent freezing
-                        }
-                        return new vm.jwArray.Type(array)
-                    })())
-                    `, imports.TYPE_UNKNOWN),
+                iterCollectToArray(node, compiler, imports) {
+                    const iter = compiler.localVariables.next(),
+                        array = compiler.localVariables.next(),
+                        item = compiler.localVariables.next();
+                    // Loop Yield
+                    const src = compiler.source
+                    compiler.source = ""; compiler.yieldLoop()
+                    const yielder = compiler.source; compiler.source = src;
+                    return new imports.TypedInput(
+                /*js*/ `(yield* (function*() {\n`
+                      +`    const ${iter} = ${compiler.descendInput(node.iter).asUnknown()};\n`
+                      +`    let ${array} = [];\n`
+                      +`    for(const ${item} of ${iter}.gen) {\n`
+                      +`        if(${item} === undefined) {yield; continue;}\n`
+                      +`        ${array}.push(${item});\n`
+                      +`        ${yielder};\n`
+                      +`    };\n`
+                      +`    return new vm.jwArray.Type(${array});\n`
+                      +`})())`
+                    , imports.TYPE_UNKNOWN)
+                },
             }
         })
 
@@ -477,7 +540,7 @@
                 let i = 0;
                 for(const item of iter.gen) {
                     if(item === undefined) {yield; continue;}
-                    yield new Array([i++, item])
+                    yield new Array([++i, item])
                 }
             })
         }
