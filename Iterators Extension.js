@@ -7,6 +7,9 @@
 
     const menuIconURI = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgd2lkdGg9IjIwcHgiIGhlaWdodD0iMjBweCIgeG1sbnM6Yng9Imh0dHBzOi8vYm94eS1zdmcuY29tIj4KICA8ZWxsaXBzZSBzdHlsZT0iZmlsbDogI2I1MmM1N2ZmOyBzdHJva2Utd2lkdGg6IDE7IiBjeD0iMTAiIGN5PSIxMCIgcng9IjEwIiByeT0iMTAiIHRyYW5zZm9ybT0ibWF0cml4KDAuOTk5OTk5OTk5OTk5OTk5OSwgMCwgMCwgMC45OTk5OTk5OTk5OTk5OTk5LCAtMy41NTI3MTM2Nzg4MDA1MDFlLTE1LCAtMS43NzYzNTY4Mzk0MDAyNTA1ZS0xNSkiLz4KICA8ZWxsaXBzZSBzdHlsZT0iZmlsbDogI2U0NDE1ZmZmOyBzdHJva2Utd2lkdGg6IDE7IiBjeD0iMTAiIGN5PSIxMCIgcng9IjkiIHJ5PSI5IiB0cmFuc2Zvcm09Im1hdHJpeCgwLjk5OTk5OTk5OTk5OTk5OTksIDAsIDAsIDAuOTk5OTk5OTk5OTk5OTk5OSwgLTMuNTUyNzEzNjc4ODAwNTAxZS0xNSwgLTEuNzc2MzU2ODM5NDAwMjUwNWUtMTUpIi8+CiAgPGcgdHJhbnNmb3JtPSJtYXRyaXgoMC4xMTI1OTMwMDI2MTczNTkxNiwgMCwgMCwgMC4xMTI1OTMwMDI2MTczNTkxNiwgLTE2Ljk0OTkyNDcyMTU2NzY5NywgLTYuMjEzMzk0MjU3NjI1ODUwNSkiIHN0eWxlPSIiPgogICAgPHJlY3QgeD0iMTc1Ljc5NSIgeT0iMTQwIiB3aWR0aD0iMTE0IiBoZWlnaHQ9IjgiIHN0eWxlPSJmaWxsOiAjZmZmOyIvPgogICAgPGVsbGlwc2Ugc3R5bGU9ImZpbGw6IHJnYigyMjgsIDY1LCA5NSk7IHN0cm9rZTogI2ZmZjsgc3Ryb2tlLXdpZHRoOiA4OyIgY3g9IjE5MCIgY3k9IjE0NCIgcng9IjE3LjA1NCIgcnk9IjE3LjA1NCIvPgogICAgPGVsbGlwc2Ugc3R5bGU9ImZpbGw6IHJnYigyMjgsIDY1LCA5NSk7IHN0cm9rZTogI2ZmZjsgc3Ryb2tlLXdpZHRoOiA4OyIgY3g9IjI4OC43MTQiIGN5PSIxNDQiIHJ4PSIxNy4wNTQiIHJ5PSIxNy4wNTQiLz4KICAgIDxwYXRoIGQ9Ik0gMjg0LjIwNSA3OS4zMyBRIDI4Ny4zODEgNzMuNzAyIDI5MC41NTYgNzkuMzMgTCAzMDUuMzc3IDEwNS41OTUgUSAzMDguNTUzIDExMS4yMjMgMzAyLjIwMSAxMTEuMjIzIEwgMjcyLjU2IDExMS4yMjMgUSAyNjYuMjA4IDExMS4yMjMgMjY5LjM4NCAxMDUuNTk1IFoiIGJ4OnNoYXBlPSJ0cmlhbmdsZSAyNjYuMjA4IDczLjcwMiA0Mi4zNDUgMzcuNTIxIDAuNSAwLjE1IDFAYTA3MDQ1MjYiIHN0eWxlPSJmaWxsOiByZ2IoMjU1LCAyNTUsIDI1NSk7IHN0cm9rZTogcmdiKDI1NSwgMjU1LCAyNTUpOyBzdHJva2Utd2lkdGg6IDg7IHN0cm9rZS1saW5lY2FwOiByb3VuZDsgdHJhbnNmb3JtLWJveDogZmlsbC1ib3g7IHRyYW5zZm9ybS1vcmlnaW46IDUwJSA1MCU7IiB0cmFuc2Zvcm09Im1hdHJpeCgwLCAxLCAtMSwgMCwgLTQ4LjQ2ODAwOSwgNTAuMTMwNTA2KSIvPgogIDwvZz4KPC9zdmc+";
 
+    // Stole from sharkpool muhahaha
+    const arrowURI = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNS44OTMiIGhlaWdodD0iMTUuODkzIiB2aWV3Qm94PSIwIDAgMTUuODkzIDE1Ljg5MyI+PHBhdGggZD0iTTkuMDIxIDEyLjI5NHYtMi4xMDdsLTYuODM5LS45MDVDMS4zOTggOS4xODQuODQ2IDguNDg2Ljk2MiA3LjcyN2MuMDktLjYxMi42MDMtMS4wOSAxLjIyLTEuMTY0bDYuODM5LS45MDVWMy42YzAtLjU4Ni43MzItLjg2OSAxLjE1Ni0uNDY0bDQuNTc2IDQuMzQ1YS42NDMuNjQzIDAgMCAxIDAgLjkxOGwtNC41NzYgNC4zNmMtLjQyNC40MDQtMS4xNTYuMTEtMS4xNTYtLjQ2NSIgZmlsbD0ibm9uZSIgc3Ryb2tlLW9wYWNpdHk9Ii4xNSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjEuNzUiLz48cGF0aCBkPSJNOS4wMjEgMTIuMjk0di0yLjEwN2wtNi44MzktLjkwNUMxLjM5OCA5LjE4NC44NDYgOC40ODYuOTYyIDcuNzI3Yy4wOS0uNjEyLjYwMy0xLjA5IDEuMjItMS4xNjRsNi44MzktLjkwNVYzLjZjMC0uNTg2LjczMi0uODY5IDEuMTU2LS40NjRsNC41NzYgNC4zNDVhLjY0My42NDMgMCAwIDEgMCAuOTE4bC00LjU3NiA0LjM2Yy0uNDI0LjQwNC0xLjE1Ni4xMS0xLjE1Ni0uNDY1IiBmaWxsPSIjZmZmIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48cGF0aCBkPSJNMCAxNS44OTJWMGgxNS44OTJ2MTUuODkyeiIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==";
+
     const {BlockType, BlockShape} = Scratch
 
     const iteratorLimit = 2 ** 32 // Same as jwk's Array limit
@@ -16,10 +19,6 @@
     if (!vm.jwArray) vm.extensionManager.loadExtensionIdSync('jwArray')
     const jwArray = vm.jwArray
     const Array = jwArray.Type
-    // Use jwk's Lambda extension
-    if (!vm.jwLambda) vm.extensionManager.loadExtensionIdSync('jwLambda')
-    const jwLambda = vm.jwLambda
-    const Lambda = jwLambda.Type
 
     function span(text) {
         let el = document.createElement('span')
@@ -106,6 +105,17 @@
                     }
                 },
                 {
+                    opcode: 'iterAdvance',
+                    text: 'advance [iter]',
+                    disableMonitor: true,
+                    blockType: BlockType.COMMAND,
+                    arguments: {
+                        iter: {
+                            shape: BlockShape.SQUARE,
+                        }
+                    }
+                },
+                {
                     opcode: 'iterRange',
                     text: 'range from [start] to [end]',
                     disableMonitor: true,
@@ -123,97 +133,112 @@
                     text: 'Iterator Adapters'
                 },
                 {
-                    opcode: 'iterThenAdapt',
-                    text: '[iter] then [adapt]',
+                    opcode: 'iterItem',
+                    text: 'item',
+                    blockType: BlockType.REPORTER,
+                    hideFromPalette: true,
+                    allowDropAnywhere: true,
+                    canDragDuplicate: true
+                },
+                {
+                    opcode: 'iterAdapterMap',
+                    text: '[iter] then map [I] [IMG] [map]',
                     disableMonitor: true,
                     blockType: BlockType.REPORTER,
                     blockShape: BlockShape.SQUARE,
                     allowDropAnywhere: true,
                     arguments: {
                         iter: {shape: BlockShape.SQUARE},
-                        adapt: {shape: BlockShape.SQUARE}
-                    }
-                },
-                '---',
-                {
-                    opcode: 'iterAdapterMap',
-                    text: 'map with [func]',
-                    disableMonitor: true,
-                    blockType: BlockType.REPORTER,
-                    blockShape: BlockShape.SQUARE,
-                    allowDropAnywhere: true,
-                    arguments: {
-                        func: jwLambda.Argument,
+                        I: {fillIn: 'iterItem'},
+                        map: {
+                            type: Scratch.ArgumentType.STRING,
+                            exemptFromNormalization: true
+                        },
+                        IMG: { type: Scratch.ArgumentType.IMAGE, dataURI: arrowURI } // Stole from Sharkpool muhahaha
                     }
                 },
                 {
                     opcode: 'iterAdapterFilter',
-                    text: 'filter by [pred]',
+                    text: '[iter] then keep [I] if [pred]',
                     disableMonitor: true,
                     blockType: BlockType.REPORTER,
                     blockShape: BlockShape.SQUARE,
                     allowDropAnywhere: true,
                     arguments: {
-                        pred: jwLambda.Argument,
+                        iter: {shape: BlockShape.SQUARE},
+                        I: {fillIn: 'iterItem'},
+                        pred: {
+                            type: Scratch.ArgumentType.BOOLEAN,
+                        },
                     }
                 },
                 {
                     opcode: 'iterAdapterEnum',
-                    text: 'enumerate items',
-                    disableMonitor: true,
-                    blockType: BlockType.REPORTER,
-                    blockShape: BlockShape.SQUARE,
-                    allowDropAnywhere: true,
-                },
-                {
-                    opcode: 'iterAdapterCycle',
-                    text: 'cycle items',
-                    disableMonitor: true,
-                    blockType: BlockType.REPORTER,
-                    blockShape: BlockShape.SQUARE,
-                    allowDropAnywhere: true,
-                },
-                {
-                    opcode: 'iterAdapterTake',
-                    text: 'take [count] items',
+                    text: '[iter] then enumerate items',
                     disableMonitor: true,
                     blockType: BlockType.REPORTER,
                     blockShape: BlockShape.SQUARE,
                     allowDropAnywhere: true,
                     arguments: {
+                        iter: {shape: BlockShape.SQUARE},
+                    }
+                },
+                {
+                    opcode: 'iterAdapterCycle',
+                    text: '[iter] then cycle items',
+                    disableMonitor: true,
+                    blockType: BlockType.REPORTER,
+                    blockShape: BlockShape.SQUARE,
+                    allowDropAnywhere: true,
+                    arguments: {
+                        iter: {shape: BlockShape.SQUARE},
+                    }
+                },
+                {
+                    opcode: 'iterAdapterTake',
+                    text: '[iter] then take [count] items',
+                    disableMonitor: true,
+                    blockType: BlockType.REPORTER,
+                    blockShape: BlockShape.SQUARE,
+                    allowDropAnywhere: true,
+                    arguments: {
+                        iter: {shape: BlockShape.SQUARE},
                         count: {type: Scratch.ArgumentType.NUMBER, defaultValue: 4},
                     }
                 },
                 {
                     opcode: 'iterAdapterSkip',
-                    text: 'skip [count] items',
+                    text: '[iter] then skip [count] items',
                     disableMonitor: true,
                     blockType: BlockType.REPORTER,
                     blockShape: BlockShape.SQUARE,
                     allowDropAnywhere: true,
                     arguments: {
+                        iter: {shape: BlockShape.SQUARE},
                         count: {type: Scratch.ArgumentType.NUMBER, defaultValue: 4},
                     }
                 },
                 {
                     opcode: 'iterAdapterChain',
-                    text: 'chain with [iter2]',
+                    text: '[iter1] then chain with [iter2]',
                     disableMonitor: true,
                     blockType: BlockType.REPORTER,
                     blockShape: BlockShape.SQUARE,
                     allowDropAnywhere: true,
                     arguments: {
+                        iter1: {shape: BlockShape.SQUARE},
                         iter2: {shape: BlockShape.SQUARE},
                     }
                 },
                 {
                     opcode: 'iterAdapterZip',
-                    text: 'zip with [iter2]',
+                    text: '[iter1] then zip with [iter2]',
                     disableMonitor: true,
                     blockType: BlockType.REPORTER,
                     blockShape: BlockShape.SQUARE,
                     allowDropAnywhere: true,
                     arguments: {
+                        iter1: {shape: BlockShape.SQUARE},
                         iter2: {shape: BlockShape.SQUARE},
                     }
                 },
@@ -221,6 +246,14 @@
                 {
                     blockType: BlockType.LABEL,
                     text: 'Iterator Terminators'
+                },
+                {
+                    opcode: 'iterAcc',
+                    text: 'acc',
+                    blockType: BlockType.REPORTER,
+                    hideFromPalette: true,
+                    allowDropAnywhere: true,
+                    canDragDuplicate: true
                 },
                 {
                     opcode: 'iterTermCount',
@@ -237,7 +270,7 @@
                 },
                 {
                     opcode: 'iterTermFold',
-                    text: '[iter] finally fold with [init] using [fold]',
+                    text: '[iter] finally reduce with [init] using [A] [I] [IMG] [fold]',
                     disableMonitor: true,
                     blockType: BlockType.REPORTER,
                     blockShape: BlockShape.ROUND,
@@ -249,18 +282,16 @@
                             defaultValue: "foo",
                             exemptFromNormalization: true
                         },
-                        fold: jwLambda.Argument,
+                        fold: {
+                            type: Scratch.ArgumentType.STRING,
+                            exemptFromNormalization: true
+                        },
+                        A: {fillIn: 'iterAcc'},
+                        I: {fillIn: 'iterItem'},
+                        IMG: { type: Scratch.ArgumentType.IMAGE, dataURI: arrowURI }
                     }
                 },
                 '---',
-                {
-                    opcode: 'iterTermForEachI',
-                    text: 'item',
-                    blockType: BlockType.REPORTER,
-                    hideFromPalette: true,
-                    allowDropAnywhere: true,
-                    canDragDuplicate: true
-                },
                 {
                     opcode: 'iterTermForEach',
                     text: 'for [I] of [iter]',
@@ -268,7 +299,7 @@
                     branchCount: 1,
                     arguments: {
                         iter: {shape: BlockShape.SQUARE},
-                        I: {fillIn: 'iterTermForEachI'},
+                        I: {fillIn: 'iterItem'},
                     },
                 },
 
@@ -307,17 +338,26 @@
                         iter: generator.descendInputOfBlock(block, 'iter'),
                     }
                 },
+                iterAdvance: (generator, block) => {
+                    generator.script.yields = true
+                    return {
+                        kind: 'stack',
+                        iter: generator.descendInputOfBlock(block, 'iter'),
+                    }
+                },
                 iterAdapterMap: (generator, block) => {
                     generator.script.yields = true
                     return {
                         kind: 'input',
-                        func: generator.descendInputOfBlock(block, 'func'),
+                        iter: generator.descendInputOfBlock(block, 'iter'),
+                        map: generator.descendInputOfBlock(block, 'map'),
                     }
                 },
                 iterAdapterFilter: (generator, block) => {
                     generator.script.yields = true
                     return {
                         kind: 'input',
+                        iter: generator.descendInputOfBlock(block, 'iter'),
                         pred: generator.descendInputOfBlock(block, 'pred'),
                     }
                 },
@@ -351,10 +391,55 @@
                         kind: 'input',
                         iter: generator.descendInputOfBlock(block, 'iter')
                     }
-                }
+                },
             },
             js: {
                 iterNext(node, compiler, imports) {
+                    const iter = compiler.localVariables.next(),
+                        item = compiler.localVariables.next();
+                    return new imports.TypedInput(
+                 /*js*/`(yield* (function*() {\n`
+                      +`    const ${iter} = ${compiler.descendInput(node.iter).asUnknown()};\n`
+                      +`    let ${item} = ${iter}.gen.next();\n`
+                      +`    while(!${item}.done && ${item}.value === undefined) {\n`
+                      +`        yield;\n`
+                      +`        ${item} = ${iter}.gen.next();\n`
+                      +`    };\n`
+                      +`    return new vm.jwArray.Type(${item}.done ? [] : [${item}.value]);\n`
+                      +`})())`
+                    , imports.TYPE_UNKNOWN)
+                },
+                iterAdvance(node, compiler, imports) {
+                    const iter = compiler.localVariables.next(),
+                        item = compiler.localVariables.next();
+                    compiler.source +=
+                 /*js*/`const ${iter} = ${compiler.descendInput(node.iter).asUnknown()};\n`
+                +/*js*/`let ${item} = ${iter}.gen.next();\n`
+                +/*js*/`while(!${item}.done && ${item}.value === undefined) {\n`
+                      +`    yield;\n`
+                      +`    ${item} = ${iter}.gen.next();\n`
+                      +`};\n`
+                },
+                iterAdapterMap(node, compiler, imports) {
+                    const iter = compiler.localVariables.next(),
+                        item = compiler.localVariables.next();
+                    return new imports.TypedInput(
+                 /*js*/`(yield* (function*() {\n`
+                      +`    const ${iter} = ${compiler.descendInput(node.iter).asUnknown()};\n`
+                      +`    return new vm.divIterator.IteratorType("Map", function*() {\n`
+                      +`        thread._divIterItem ??= [];\n`
+                      +`        thread._divIterItem.push(null);\n`
+                      +`        for(const ${item} of ${iter}.gen) {\n`
+                      +`            if(${item} === undefined) {yield; continue;}\n`
+                      +`            thread._divIterItem[thread._divIterItem.length-1] = ${item};\n`
+                      +`            yield ${compiler.descendInput(node.map).asUnknown()}\n`
+                      +`        };\n`
+                      +`        thread._divIterItem.pop();\n`
+                      +`    })\n`
+                      +`})())`
+                    , imports.TYPE_UNKNOWN)
+                },
+                iterAdapterFilter(node, compiler, imports) {
                     const iter = compiler.localVariables.next(),
                         item = compiler.localVariables.next();
                     // Loop Yield
@@ -364,58 +449,16 @@
                     return new imports.TypedInput(
                  /*js*/`(yield* (function*() {\n`
                       +`    const ${iter} = ${compiler.descendInput(node.iter).asUnknown()};\n`
-                      +`    for(const ${item} of ${iter}.gen) {\n`
-                      +`        if(${item} !== undefined) return new vm.jwArray.Type([${item}]);\n`
-                      +`        ${yielder};\n`
-                      +`    };\n`
-                      +`    return new vm.jwArray.Type([]);\n`
-                      +`})())`
-                    , imports.TYPE_UNKNOWN)
-                },
-                iterAdapterMap(node, compiler, imports) {
-                    const func = compiler.localVariables.next(),
-                        iter = compiler.localVariables.next(),
-                        item = compiler.localVariables.next(),
-                        res = compiler.localVariables.next();
-                    // Loop Yield
-                    const src = compiler.source
-                    compiler.source = ""; compiler.yieldLoop()
-                    const yielder = compiler.source; compiler.source = src;
-                    return new imports.TypedInput(
-                 /*js*/`(yield* (function*() {\n`
-                      +`    const ${func} = vm.jwLambda.Type.toLambda(${compiler.descendInput(node.func).asUnknown()});\n`
-                      +`    return new vm.divIterator.AdapterType("Map", ${iter} => function*() {\n`
-                      +`        console.log("Map");\n`
+                      +`    return new vm.divIterator.IteratorType("Filter", function*() {\n`
+                      +`        thread._divIterItem ??= [];\n`
+                      +`        thread._divIterItem.push(null);\n`
                       +`        for(const ${item} of ${iter}.gen) {\n`
-                      +`            console.log(${item});\n`
                       +`            if(${item} === undefined) {yield; continue;}\n`
-                      +`            const ${res} = yield* ${func}.execute(${item}, thread, target, runtime, stage);\n`
-                      +`            yield ${res};\n`
+                      +`            thread._divIterItem[thread._divIterItem.length-1] = ${item};\n`
+                      +`            if(${compiler.descendInput(node.pred).asBoolean()}) yield ${item};\n`
                       +`            ${yielder};\n`
                       +`        };\n`
-                      +`    })\n`
-                      +`})())`
-                    , imports.TYPE_UNKNOWN)
-                },
-                iterAdapterFilter(node, compiler, imports) {
-                    const pred = compiler.localVariables.next(),
-                        iter = compiler.localVariables.next(),
-                        item = compiler.localVariables.next(),
-                        cond = compiler.localVariables.next();
-                    // Loop Yield
-                    const src = compiler.source
-                    compiler.source = ""; compiler.yieldLoop()
-                    const yielder = compiler.source; compiler.source = src;
-                    return new imports.TypedInput(
-                 /*js*/`(yield* (function*() {\n`
-                      +`    const ${pred} = vm.jwLambda.Type.toLambda(${compiler.descendInput(node.pred).asUnknown()});\n`
-                      +`    return new vm.divIterator.AdapterType("Filter", ${iter} => function*() {\n`
-                      +`        for(const ${item} of ${iter}.gen) {\n`
-                      +`            if(${item} === undefined) {yield; continue;}\n`
-                      +`            const ${cond} = yield* ${pred}.execute(${item}, thread, target, runtime, stage);\n`
-                      +`            if(${cond}) yield ${item}\n`
-                      +`            ${yielder};\n`
-                      +`        }\n`
+                      +`        thread._divIterItem.pop();\n`
                       +`    })\n`
                       +`})())`
                     , imports.TYPE_UNKNOWN)
@@ -453,21 +496,25 @@
                     return new imports.TypedInput(
                 /*js*/ `(yield* (function*() {\n`
                       +`    const ${iter} = ${compiler.descendInput(node.iter).asUnknown()};\n`
-                      +`    const ${fold} = vm.jwLambda.Type.toLambda(${compiler.descendInput(node.fold).asUnknown()});\n`
                       +`    let ${acc} = ${compiler.descendInput(node.init).asUnknown()};\n`
-                      +`    console.log("Fold");\n`
+                      +`    thread._divIterItem ??= [];\n`
+                      +`    thread._divIterItem.push(null);\n`
+                      +`    thread._divIterAcc ??= [];\n`
+                      +`    thread._divIterAcc.push(null);\n`
                       +`    for(const ${item} of ${iter}.gen) {\n`
-                      +`        console.log(${item});\n`
                       +`        if(${item} === undefined) {yield; continue;};\n`
-                      +`        console.log(${acc} + " + " + ${item});\n`
-                      +`        ${acc} = yield* ${fold}.execute(new vm.jwArray.Type([${acc}, ${item}]), thread, target, runtime, stage);\n`
+                      +`        thread._divIterItem[thread._divIterItem.length-1] = ${item};\n`
+                      +`        thread._divIterAcc[thread._divIterItem.length-1] = ${acc};\n`
+                      +`        ${acc} = ${compiler.descendInput(node.fold).asUnknown()};\n`
                       +`        ${yielder};\n`
                       +`    };\n`
+                      +`    thread._divIterItem.pop();\n`
+                      +`    thread._divIterAcc.pop();\n`
                       +`    return ${acc};\n`
                       +`})())`
                     , imports.TYPE_UNKNOWN)
                 },
-                // _divIterForEachI
+                // _divIterItem
                 iterTermForEach: (node, compiler, imports) => {
                     const iter = compiler.localVariables.next(),
                         item = compiler.localVariables.next();
@@ -478,14 +525,14 @@
                     const substack = compiler.source
                     compiler.source = src + 
                  /*js*/`const ${iter} = ${compiler.descendInput(node.iter).asUnknown()};\n`
-                +/*js*/`thread._divIterForEachI ??= [];\n`
-                +/*js*/`thread._divIterForEachI.push(null);\n`
+                +/*js*/`thread._divIterItem ??= [];\n`
+                +/*js*/`thread._divIterItem.push(null);\n`
                 +/*js*/`for(const ${item} of ${iter}.gen) {\n`
                       +`    if(${item} === undefined) {yield; continue;};\n`
-                      +`    thread._divIterForEachI[thread._divIterForEachI.length-1] = ${item};\n`
+                      +`    thread._divIterItem[thread._divIterItem.length-1] = ${item};\n`
                       +`    ${substack}\n`
                       +`};\n`
-                +/*js*/`thread._divIterForEachI.pop();`
+                +/*js*/`thread._divIterItem.pop();`
                 },
                 iterCollectToArray(node, compiler, imports) {
                     const iter = compiler.localVariables.next(),
@@ -516,6 +563,10 @@
             return 'noop'
         }
 
+        iterAdvance() {
+            return 'noop'
+        }
+
         iterRange({start, end}) {
             return new IteratorType("Range", function*() {
                 for(let i = start; end < start || i <= end; i++) yield i
@@ -535,8 +586,8 @@
             return "noop"
         }
 
-        iterAdapterEnum() {
-            return new AdapterType("Enumerate", iter => function*() {
+        iterAdapterEnum({iter}) {
+            return new IteratorType("Enumerate", function*() {
                 let i = 0;
                 for(const item of iter.gen) {
                     if(item === undefined) {yield; continue;}
@@ -545,8 +596,8 @@
             })
         }
 
-        iterAdapterCycle() {
-            return new AdapterType("Cycle", iter => function*() {
+        iterAdapterCycle({iter}) {
+            return new IteratorType("Cycle", function*() {
                 let buffer = []
                 let idx = 0
                 for(const item of iter.gen) {
@@ -562,8 +613,8 @@
             })
         }
 
-        iterAdapterTake({count}) {
-            return new AdapterType("Take", iter => function*() {
+        iterAdapterTake({iter, count}) {
+            return new IteratorType("Take", function*() {
                 let idx = 0
                 for(const item of iter.gen) {
                     if(item === undefined) {yield; continue;}
@@ -573,8 +624,8 @@
             })
         }
 
-        iterAdapterSkip({count}) {
-            return new AdapterType("Skip", iter => function*() {
+        iterAdapterSkip({iter, count}) {
+            return new IteratorType("Skip", function*() {
                 let idx = 0
                 while(idx < count) {
                     const next = iter.gen.next()
@@ -585,15 +636,15 @@
             })
         }
 
-        iterAdapterChain({iter2}) {
-            return new AdapterType("Chain", iter1 => function*() {
+        iterAdapterChain({iter1, iter2}) {
+            return new IteratorType("Chain", function*() {
                 yield* iter1.gen
                 yield* iter2.gen
             })
         }
 
-        iterAdapterZip({iter2}) {
-            return new AdapterType("Zip", iter1 => function*() {
+        iterAdapterZip({iter1, iter2}) {
+            return new IteratorType("Zip", function*() {
                 for(;;) {
                     let next1 = iter1.gen.next()
                     if(next1.done) return
@@ -623,8 +674,12 @@
             return 'noop'
         }
 
-        iterTermForEachI({}, util) {
-            return util.thread._divIterForEachI ? util.thread._divIterForEachI[util.thread._divIterForEachI.length-1] : ""
+        iterItem({}, util) {
+            return util.thread._divIterItem ? util.thread._divIterItem[util.thread._divIterItem.length-1] : ""
+        }
+
+        iterAcc({}, util) {
+            return util.thread._divIterAcc ? util.thread._divIterAcc[util.thread._divIterAcc.length-1] : ""
         }
 
         iterTermForEach() {
