@@ -511,27 +511,23 @@
                 },
 
                 iterAdapterMap(node, compiler, imports) {
-                    const iter = compiler.localVariables.next(),
-                        item = compiler.localVariables.next();
+                    const iter = compiler.localVariables.next();
                     return new imports.TypedInput(
                  /*js*/`(yield* (function*() {\n`
                       +`    const ${iter} = vm.divIterator.Type.toIterator(${compiler.descendInput(node.iter).asUnknown()});\n`
                       +`    return ${iter}.chainIter("Map", function*() {\n`
                       +`        thread._divIterItem ??= [];\n`
-                      +`        thread._divIterItem.push(null);\n`
                       +`        while(!${iter}.done) {\n`
-                      +`            thread._divIterItem[thread._divIterItem.length-1] = yield* ${iter}.yieldNext();\n`
-                      +`            if(${iter}.done) break;\n`
-                      +`            yield ${compiler.descendInput(node.map).asUnknown()}\n`
+                      +`            thread._divIterItem.push(yield* ${iter}.yieldNext());\n`
+                      +`            if(!${iter}.done) yield (${compiler.descendInput(node.map).asUnknown()});\n`
+                      +`            thread._divIterItem.pop();\n`
                       +`        };\n`
-                      +`        thread._divIterItem.pop();\n`
                       +`    })\n`
                       +`})())`
                     , imports.TYPE_UNKNOWN)
                 },
                 iterAdapterKeep(node, compiler, imports) {
-                    const iter = compiler.localVariables.next(),
-                        item = compiler.localVariables.next();
+                    const iter = compiler.localVariables.next();
                     // Loop Yield
                     const src = compiler.source
                     compiler.source = ""; compiler.yieldLoop()
@@ -541,14 +537,12 @@
                       +`    const ${iter} = vm.divIterator.Type.toIterator(${compiler.descendInput(node.iter).asUnknown()});\n`
                       +`    return ${iter}.chainIter("Keep", function*() {\n`
                       +`        thread._divIterItem ??= [];\n`
-                      +`        thread._divIterItem.push(null);\n`
                       +`        while(!${iter}.done) {\n`
-                      +`            thread._divIterItem[thread._divIterItem.length-1] = yield* ${iter}.yieldNext();\n`
-                      +`            if(${iter}.done) break;\n`
-                      +`            if(${compiler.descendInput(node.pred).asBoolean()}) yield thread._divIterItem[thread._divIterItem.length-1];\n`
+                      +`            thread._divIterItem.push(yield* ${iter}.yieldNext());\n`
+                      +`            if(!${iter}.done && (${compiler.descendInput(node.pred).asBoolean()})) yield thread._divIterItem.at(-1);\n`
+                      +`            thread._divIterItem.pop();\n`
                       +`            ${yielder};\n`
                       +`        };\n`
-                      +`        thread._divIterItem.pop();\n`
                       +`    })\n`
                       +`})())`
                     , imports.TYPE_UNKNOWN)
@@ -587,18 +581,15 @@
                       +`    const ${iter} = vm.divIterator.Type.toIterator(${compiler.descendInput(node.iter).asUnknown()});\n`
                       +`    let ${acc} = ${compiler.descendInput(node.init).asUnknown()};\n`
                       +`    thread._divIterItem ??= [];\n`
-                      +`    thread._divIterItem.push(null);\n`
                       +`    thread._divIterAcc ??= [];\n`
-                      +`    thread._divIterAcc.push(null);\n`
                       +`    while(!${iter}.done) {\n`
-                      +`        thread._divIterItem[thread._divIterItem.length-1] = yield* ${iter}.yieldNext();\n`
-                      +`        if(${iter}.done) break;\n`
-                      +`        thread._divIterAcc[thread._divIterItem.length-1] = ${acc};\n`
-                      +`        ${acc} = ${compiler.descendInput(node.fold).asUnknown()};\n`
+                      +`        thread._divIterItem.push(yield* ${iter}.yieldNext());\n`
+                      +`        thread._divIterAcc.push(${acc});\n`
+                      +`        if(!${iter}.done) ${acc} = ${compiler.descendInput(node.fold).asUnknown()};\n`
+                      +`        thread._divIterItem.pop();\n`
+                      +`        thread._divIterAcc.pop();\n`
                       +`        ${yielder};\n`
                       +`    };\n`
-                      +`    thread._divIterItem.pop();\n`
-                      +`    thread._divIterAcc.pop();\n`
                       +`    return ${acc};\n`
                       +`})())`
                     , imports.TYPE_UNKNOWN)
@@ -614,23 +605,20 @@
                 /*js*/ `(yield* (function*() {\n`
                       +`    const ${iter} = vm.divIterator.Type.toIterator(${compiler.descendInput(node.iter).asUnknown()});\n`
                       +`    thread._divIterItem ??= [];\n`
-                      +`    thread._divIterItem.push(null);\n`
-                      +`    while(!${iter}.done) {\n`
-                      +`        const ${item} = yield* ${iter}.yieldNext();\n`
-                      +`        if(${iter}.done) break;\n`
-                      +`        thread._divIterItem[thread._divIterItem.length-1] = ${item};\n`
-                      +`        if(${compiler.descendInput(node.pred).asUnknown()}) return true;\n` // Short-circuit
+                      +`    let any = false;`
+                      +`    while(!any && !${iter}.done) {\n`
+                      +`        thread._divIterItem.push(yield* ${iter}.yieldNext());\n`
+                      +`        if(!${iter}.done) any ||= ${compiler.descendInput(node.pred).asUnknown()};\n`
+                      +`        thread._divIterItem.pop();\n`
                       +`        ${yielder};\n`
                       +`    };\n`
-                      +`    thread._divIterItem.pop();\n`
-                      +`    return false;\n`
+                      +`    return any;\n`
                       +`})())`
                     , imports.TYPE_UNKNOWN)
                 },
                 // Pretty much the dual of iterTermAny lol
                 iterTermAll(node, compiler, imports) {
-                    const iter = compiler.localVariables.next(),
-                        item = compiler.localVariables.next();
+                    const iter = compiler.localVariables.next();
                     // Loop Yield
                     const src = compiler.source
                     compiler.source = ""; compiler.yieldLoop()
@@ -639,16 +627,14 @@
                 /*js*/ `(yield* (function*() {\n`
                       +`    const ${iter} = vm.divIterator.Type.toIterator(${compiler.descendInput(node.iter).asUnknown()});\n`
                       +`    thread._divIterItem ??= [];\n`
-                      +`    thread._divIterItem.push(null);\n`
-                      +`    while(!${iter}.done) {\n`
-                      +`        const ${item} = yield* ${iter}.yieldNext();\n`
-                      +`        if(${iter}.done) break;\n`
-                      +`        thread._divIterItem[thread._divIterItem.length-1] = ${item};\n`
-                      +`        if(!${compiler.descendInput(node.pred).asUnknown()}) return false;\n` // Short-circuit
+                      +`    let all = false;`
+                      +`    while(all && !${iter}.done) {\n`
+                      +`        thread._divIterItem.push(yield* ${iter}.yieldNext());\n`
+                      +`        if(!${iter}.done) all &&= ${compiler.descendInput(node.pred).asUnknown()};\n`
+                      +`        thread._divIterItem.pop();\n`
                       +`        ${yielder};\n`
                       +`    };\n`
-                      +`    thread._divIterItem.pop();\n`
-                      +`    return true;\n`
+                      +`    return all;\n`
                       +`})())`
                     , imports.TYPE_UNKNOWN)
                 },
@@ -807,11 +793,12 @@
             if(depth === 0) return iter.chainIter({kind: "Flatten", args: [0]}, function*() {yield* iter})
             return iter.chainIter({kind: "Flatten", args: [depth]}, function*() {
                 const flat = function*(iter, depth) {
-                    if(depth === 0) return yield* iter;
-                    while(!iter.done) {
+                    if(depth === 0) yield* iter;
+                    else while(!iter.done) {
                         const item = yield* iter.yieldNext()
                         if(iter.done) return;
                         if(item instanceof IteratorType) yield* flat(item, depth-1)
+                        else yield item
                     }
                 }
                 yield* flat(iter, depth)
@@ -836,11 +823,11 @@
         }
 
         iterItem({}, util) {
-            return util.thread._divIterItem ? util.thread._divIterItem[util.thread._divIterItem.length-1] : ""
+            return util.thread._divIterItem ? util.thread._divIterItem.at(-1) : ""
         }
 
         iterAcc({}, util) {
-            return util.thread._divIterAcc ? util.thread._divIterAcc[util.thread._divIterAcc.length-1] : ""
+            return util.thread._divIterAcc ? util.thread._divIterAcc.at(-1) : ""
         }
 
         iterTermForEach() {
