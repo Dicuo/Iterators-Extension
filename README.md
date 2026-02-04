@@ -8,4 +8,4 @@ An extension that adds iterators to PenguinMod
 - [x] Clean the code a bit if possible (might still need some more)
 - [ ] Add documentation
 - [x] Create some kind of "iterable" interface for custom types (`iterate over` and `collect to` could be made type-generic!)
-- [ ] Add a block for defining custom iterators (Possibly generator style?)
+- [x] Add a block for defining custom iterators ~~(Possibly generator style?)~~ Nope, custom iterators use explicit state and a next method now
