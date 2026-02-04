@@ -3,22 +3,22 @@
     if (!Scratch.extensions.unsandboxed) {
         throw new Error('\'Iterators\' must run unsandboxed!');
     }
-
-    const menuIconURI = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgd2lkdGg9IjIwcHgiIGhlaWdodD0iMjBweCIgeG1sbnM6Yng9Imh0dHBzOi8vYm94eS1zdmcuY29tIj4KICA8ZWxsaXBzZSBzdHlsZT0iZmlsbDogI2I1MmM1N2ZmOyBzdHJva2Utd2lkdGg6IDE7IiBjeD0iMTAiIGN5PSIxMCIgcng9IjEwIiByeT0iMTAiIHRyYW5zZm9ybT0ibWF0cml4KDAuOTk5OTk5OTk5OTk5OTk5OSwgMCwgMCwgMC45OTk5OTk5OTk5OTk5OTk5LCAtMy41NTI3MTM2Nzg4MDA1MDFlLTE1LCAtMS43NzYzNTY4Mzk0MDAyNTA1ZS0xNSkiLz4KICA8ZWxsaXBzZSBzdHlsZT0iZmlsbDogI2U0NDE1ZmZmOyBzdHJva2Utd2lkdGg6IDE7IiBjeD0iMTAiIGN5PSIxMCIgcng9IjkiIHJ5PSI5IiB0cmFuc2Zvcm09Im1hdHJpeCgwLjk5OTk5OTk5OTk5OTk5OTksIDAsIDAsIDAuOTk5OTk5OTk5OTk5OTk5OSwgLTMuNTUyNzEzNjc4ODAwNTAxZS0xNSwgLTEuNzc2MzU2ODM5NDAwMjUwNWUtMTUpIi8+CiAgPGcgdHJhbnNmb3JtPSJtYXRyaXgoMC4xMTI1OTMwMDI2MTczNTkxNiwgMCwgMCwgMC4xMTI1OTMwMDI2MTczNTkxNiwgLTE2Ljk0OTkyNDcyMTU2NzY5NywgLTYuMjEzMzk0MjU3NjI1ODUwNSkiIHN0eWxlPSIiPgogICAgPHJlY3QgeD0iMTc1Ljc5NSIgeT0iMTQwIiB3aWR0aD0iMTE0IiBoZWlnaHQ9IjgiIHN0eWxlPSJmaWxsOiAjZmZmOyIvPgogICAgPGVsbGlwc2Ugc3R5bGU9ImZpbGw6IHJnYigyMjgsIDY1LCA5NSk7IHN0cm9rZTogI2ZmZjsgc3Ryb2tlLXdpZHRoOiA4OyIgY3g9IjE5MCIgY3k9IjE0NCIgcng9IjE3LjA1NCIgcnk9IjE3LjA1NCIvPgogICAgPGVsbGlwc2Ugc3R5bGU9ImZpbGw6IHJnYigyMjgsIDY1LCA5NSk7IHN0cm9rZTogI2ZmZjsgc3Ryb2tlLXdpZHRoOiA4OyIgY3g9IjI4OC43MTQiIGN5PSIxNDQiIHJ4PSIxNy4wNTQiIHJ5PSIxNy4wNTQiLz4KICAgIDxwYXRoIGQ9Ik0gMjg0LjIwNSA3OS4zMyBRIDI4Ny4zODEgNzMuNzAyIDI5MC41NTYgNzkuMzMgTCAzMDUuMzc3IDEwNS41OTUgUSAzMDguNTUzIDExMS4yMjMgMzAyLjIwMSAxMTEuMjIzIEwgMjcyLjU2IDExMS4yMjMgUSAyNjYuMjA4IDExMS4yMjMgMjY5LjM4NCAxMDUuNTk1IFoiIGJ4OnNoYXBlPSJ0cmlhbmdsZSAyNjYuMjA4IDczLjcwMiA0Mi4zNDUgMzcuNTIxIDAuNSAwLjE1IDFAYTA3MDQ1MjYiIHN0eWxlPSJmaWxsOiByZ2IoMjU1LCAyNTUsIDI1NSk7IHN0cm9rZTogcmdiKDI1NSwgMjU1LCAyNTUpOyBzdHJva2Utd2lkdGg6IDg7IHN0cm9rZS1saW5lY2FwOiByb3VuZDsgdHJhbnNmb3JtLWJveDogZmlsbC1ib3g7IHRyYW5zZm9ybS1vcmlnaW46IDUwJSA1MCU7IiB0cmFuc2Zvcm09Im1hdHJpeCgwLCAxLCAtMSwgMCwgLTQ4LjQ2ODAwOSwgNTAuMTMwNTA2KSIvPgogIDwvZz4KPC9zdmc+";
-
-    // Stole this icon from sharkpool muhahaha
-    const arrowURI = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNS44OTMiIGhlaWdodD0iMTUuODkzIiB2aWV3Qm94PSIwIDAgMTUuODkzIDE1Ljg5MyI+PHBhdGggZD0iTTkuMDIxIDEyLjI5NHYtMi4xMDdsLTYuODM5LS45MDVDMS4zOTggOS4xODQuODQ2IDguNDg2Ljk2MiA3LjcyN2MuMDktLjYxMi42MDMtMS4wOSAxLjIyLTEuMTY0bDYuODM5LS45MDVWMy42YzAtLjU4Ni43MzItLjg2OSAxLjE1Ni0uNDY0bDQuNTc2IDQuMzQ1YS42NDMuNjQzIDAgMCAxIDAgLjkxOGwtNC41NzYgNC4zNmMtLjQyNC40MDQtMS4xNTYuMTEtMS4xNTYtLjQ2NSIgZmlsbD0ibm9uZSIgc3Ryb2tlLW9wYWNpdHk9Ii4xNSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjEuNzUiLz48cGF0aCBkPSJNOS4wMjEgMTIuMjk0di0yLjEwN2wtNi44MzktLjkwNUMxLjM5OCA5LjE4NC44NDYgOC40ODYuOTYyIDcuNzI3Yy4wOS0uNjEyLjYwMy0xLjA5IDEuMjItMS4xNjRsNi44MzktLjkwNVYzLjZjMC0uNTg2LjczMi0uODY5IDEuMTU2LS40NjRsNC41NzYgNC4zNDVhLjY0My42NDMgMCAwIDEgMCAuOTE4bC00LjU3NiA0LjM2Yy0uNDI0LjQwNC0xLjE1Ni4xMS0xLjE1Ni0uNDY1IiBmaWxsPSIjZmZmIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48cGF0aCBkPSJNMCAxNS44OTJWMGgxNS44OTJ2MTUuODkyeiIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==";
-
-    const {BlockType, BlockShape, Cast, vm} = Scratch
+    const {BlockType, BlockShape, ArgumentType, Cast, vm} = Scratch
 
     // Using jw's Array extension
-    if (!vm.jwArray || !vm.runtime.ext_jwArray) vm.extensionManager.loadExtensionIdSync('jwArray')
-    const jwArray = vm.jwArray
-    const Array = jwArray.Type
+    let jwArray = {
+        Type: class {},
+        Block: {},
+        Argument: {}
+    }
+
+    // const menuIconURI = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgd2lkdGg9IjIwcHgiIGhlaWdodD0iMjBweCIgeG1sbnM6Yng9Imh0dHBzOi8vYm94eS1zdmcuY29tIj4KICA8ZWxsaXBzZSBzdHlsZT0iZmlsbDogI2I1MmM1N2ZmOyBzdHJva2Utd2lkdGg6IDE7IiBjeD0iMTAiIGN5PSIxMCIgcng9IjEwIiByeT0iMTAiIHRyYW5zZm9ybT0ibWF0cml4KDAuOTk5OTk5OTk5OTk5OTk5OSwgMCwgMCwgMC45OTk5OTk5OTk5OTk5OTk5LCAtMy41NTI3MTM2Nzg4MDA1MDFlLTE1LCAtMS43NzYzNTY4Mzk0MDAyNTA1ZS0xNSkiLz4KICA8ZWxsaXBzZSBzdHlsZT0iZmlsbDogI2U0NDE1ZmZmOyBzdHJva2Utd2lkdGg6IDE7IiBjeD0iMTAiIGN5PSIxMCIgcng9IjkiIHJ5PSI5IiB0cmFuc2Zvcm09Im1hdHJpeCgwLjk5OTk5OTk5OTk5OTk5OTksIDAsIDAsIDAuOTk5OTk5OTk5OTk5OTk5OSwgLTMuNTUyNzEzNjc4ODAwNTAxZS0xNSwgLTEuNzc2MzU2ODM5NDAwMjUwNWUtMTUpIi8+CiAgPGcgdHJhbnNmb3JtPSJtYXRyaXgoMC4xMTI1OTMwMDI2MTczNTkxNiwgMCwgMCwgMC4xMTI1OTMwMDI2MTczNTkxNiwgLTE2Ljk0OTkyNDcyMTU2NzY5NywgLTYuMjEzMzk0MjU3NjI1ODUwNSkiIHN0eWxlPSIiPgogICAgPHJlY3QgeD0iMTc1Ljc5NSIgeT0iMTQwIiB3aWR0aD0iMTE0IiBoZWlnaHQ9IjgiIHN0eWxlPSJmaWxsOiAjZmZmOyIvPgogICAgPGVsbGlwc2Ugc3R5bGU9ImZpbGw6IHJnYigyMjgsIDY1LCA5NSk7IHN0cm9rZTogI2ZmZjsgc3Ryb2tlLXdpZHRoOiA4OyIgY3g9IjE5MCIgY3k9IjE0NCIgcng9IjE3LjA1NCIgcnk9IjE3LjA1NCIvPgogICAgPGVsbGlwc2Ugc3R5bGU9ImZpbGw6IHJnYigyMjgsIDY1LCA5NSk7IHN0cm9rZTogI2ZmZjsgc3Ryb2tlLXdpZHRoOiA4OyIgY3g9IjI4OC43MTQiIGN5PSIxNDQiIHJ4PSIxNy4wNTQiIHJ5PSIxNy4wNTQiLz4KICAgIDxwYXRoIGQ9Ik0gMjg0LjIwNSA3OS4zMyBRIDI4Ny4zODEgNzMuNzAyIDI5MC41NTYgNzkuMzMgTCAzMDUuMzc3IDEwNS41OTUgUSAzMDguNTUzIDExMS4yMjMgMzAyLjIwMSAxMTEuMjIzIEwgMjcyLjU2IDExMS4yMjMgUSAyNjYuMjA4IDExMS4yMjMgMjY5LjM4NCAxMDUuNTk1IFoiIGJ4OnNoYXBlPSJ0cmlhbmdsZSAyNjYuMjA4IDczLjcwMiA0Mi4zNDUgMzcuNTIxIDAuNSAwLjE1IDFAYTA3MDQ1MjYiIHN0eWxlPSJmaWxsOiByZ2IoMjU1LCAyNTUsIDI1NSk7IHN0cm9rZTogcmdiKDI1NSwgMjU1LCAyNTUpOyBzdHJva2Utd2lkdGg6IDg7IHN0cm9rZS1saW5lY2FwOiByb3VuZDsgdHJhbnNmb3JtLWJveDogZmlsbC1ib3g7IHRyYW5zZm9ybS1vcmlnaW46IDUwJSA1MCU7IiB0cmFuc2Zvcm09Im1hdHJpeCgwLCAxLCAtMSwgMCwgLTQ4LjQ2ODAwOSwgNTAuMTMwNTA2KSIvPgogIDwvZz4KPC9zdmc+";
+    const menuIconURI = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgd2lkdGg9IjIwcHgiIGhlaWdodD0iMjBweCIgeG1sbnM6Yng9Imh0dHBzOi8vYm94eS1zdmcuY29tIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQtMCIgYng6cGlubmVkPSJ0cnVlIj4KICAgICAgPHRpdGxlPkZpbGw8L3RpdGxlPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0eWxlPSJzdG9wLWNvbG9yOiByZ2IoMjU1LCA2OCwgMTE4KTsiPjwvc3RvcD4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdHlsZT0ic3RvcC1jb2xvcjogcmdiKDI1NSwgNTQsIDk4KTsiPjwvc3RvcD4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50LTAtMCIgaHJlZj0iI2dyYWRpZW50LTAiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4MT0iMTAiIHkxPSIxIiB4Mj0iMTAiIHkyPSIxOSI+PC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQtMSIgYng6cGlubmVkPSJ0cnVlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdHlsZT0ic3RvcC1jb2xvcjogcmdiKDE4NiwgMzgsIDk2KTsiPjwvc3RvcD4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdHlsZT0ic3RvcC1jb2xvcjogcmdiKDE3MiwgNDEsIDc5KTsiPjwvc3RvcD4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50LTEtMCIgaHJlZj0iI2dyYWRpZW50LTEiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4MT0iMTAiIHkxPSIwIiB4Mj0iMTAiIHkyPSIyMCI+PC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPGVsbGlwc2Ugc3R5bGU9InN0cm9rZS13aWR0aDogMTsgZmlsbDogdXJsKCNncmFkaWVudC0xLTApOyIgY3g9IjEwIiBjeT0iMTAiIHJ4PSIxMCIgcnk9IjEwIiB0cmFuc2Zvcm09Im1hdHJpeCgwLjk5OTk5OTk5OTk5OTk5OTksIDAsIDAsIDAuOTk5OTk5OTk5OTk5OTk5OSwgLTMuNTUyNzEzNjc4ODAwNTAxZS0xNSwgLTEuNzc2MzU2ODM5NDAwMjUwNWUtMTUpIj48L2VsbGlwc2U+CiAgPGVsbGlwc2Ugc3R5bGU9InN0cm9rZS13aWR0aDogMTsgZmlsbDogdXJsKCNncmFkaWVudC0wLTApOyIgY3g9IjEwIiBjeT0iMTAiIHJ4PSI5IiByeT0iOSIgdHJhbnNmb3JtPSJtYXRyaXgoMC45OTk5OTk5OTk5OTk5OTk5LCAwLCAwLCAwLjk5OTk5OTk5OTk5OTk5OTksIC0zLjU1MjcxMzY3ODgwMDUwMWUtMTUsIC0xLjc3NjM1NjgzOTQwMDI1MDVlLTE1KSI+PC9lbGxpcHNlPgogIDxyZWN0IHg9IjYuMjI4IiB5PSI5LjU1IiB3aWR0aD0iNy40ODMiIGhlaWdodD0iMC45MDEiIHN0eWxlPSJmaWxsOiByZ2IoMjU1LCAyNTUsIDI1NSk7IHN0cm9rZS13aWR0aDogMC4xMTM7Ij48L3JlY3Q+CiAgPGVsbGlwc2Ugc3R5bGU9InN0cm9rZTogcmdiKDI1NSwgMjU1LCAyNTUpOyBzdHJva2Utd2lkdGg6IDAuOTAxOyBmaWxsOiBub25lOyIgY3g9IjQuNDQzIiBjeT0iMTAiIHJ4PSIxLjkyIiByeT0iMS45MiI+PC9lbGxpcHNlPgogIDxlbGxpcHNlIHN0eWxlPSJzdHJva2U6IHJnYigyNTUsIDI1NSwgMjU1KTsgc3Ryb2tlLXdpZHRoOiAwLjkwMTsgZmlsbDogbm9uZTsiIGN4PSIxNS41NTciIGN5PSIxMCIgcng9IjEuOTIiIHJ5PSIxLjkyIj48L2VsbGlwc2U+CiAgPHBhdGggZD0iTSAzMS45OTkgOC45MzIgUSAzMi4zNTcgOC4yOTggMzIuNzE1IDguOTMyIEwgMzQuMzgzIDExLjg4OSBRIDM0Ljc0MSAxMi41MjMgMzQuMDI2IDEyLjUyMyBMIDMwLjY4OCAxMi41MjMgUSAyOS45NzMgMTIuNTIzIDMwLjMzMSAxMS44ODkgWiIgYng6c2hhcGU9InRyaWFuZ2xlIDI5Ljk3MyA4LjI5OCA0Ljc2OCA0LjIyNSAwLjUgMC4xNSAxQDY4NjMxOGZkIiBzdHlsZT0iZmlsbDogcmdiKDI1NSwgMjU1LCAyNTUpOyBzdHJva2U6IHJnYigyNTUsIDI1NSwgMjU1KTsgc3Ryb2tlLXdpZHRoOiAwLjkwMTsgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kOyB0cmFuc2Zvcm0tYm94OiBmaWxsLWJveDsgdHJhbnNmb3JtLW9yaWdpbjogNTAlIDUwJTsiIHRyYW5zZm9ybT0ibWF0cml4KDAsIDEsIC0xLCAwLCAtMjIuNDA3MDA1LCAtMC41NjkwMzUpIj48L3BhdGg+Cjwvc3ZnPg=="
+    const arrowURI = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNS44OTMiIGhlaWdodD0iMTUuODkzIiB2aWV3Qm94PSIwIDAgMTUuODkzIDE1Ljg5MyI+PHBhdGggZD0iTTkuMDIxIDEyLjI5NHYtMi4xMDdsLTYuODM5LS45MDVDMS4zOTggOS4xODQuODQ2IDguNDg2Ljk2MiA3LjcyN2MuMDktLjYxMi42MDMtMS4wOSAxLjIyLTEuMTY0bDYuODM5LS45MDVWMy42YzAtLjU4Ni43MzItLjg2OSAxLjE1Ni0uNDY0bDQuNTc2IDQuMzQ1YS42NDMuNjQzIDAgMCAxIDAgLjkxOGwtNC41NzYgNC4zNmMtLjQyNC40MDQtMS4xNTYuMTEtMS4xNTYtLjQ2NSIgZmlsbD0ibm9uZSIgc3Ryb2tlLW9wYWNpdHk9Ii4xNSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjEuNzUiLz48cGF0aCBkPSJNOS4wMjEgMTIuMjk0di0yLjEwN2wtNi44MzktLjkwNUMxLjM5OCA5LjE4NC44NDYgOC40ODYuOTYyIDcuNzI3Yy4wOS0uNjEyLjYwMy0xLjA5IDEuMjItMS4xNjRsNi44MzktLjkwNVYzLjZjMC0uNTg2LjczMi0uODY5IDEuMTU2LS40NjRsNC41NzYgNC4zNDVhLjY0My42NDMgMCAwIDEgMCAuOTE4bC00LjU3NiA0LjM2Yy0uNDI0LjQwNC0xLjE1Ni4xMS0xLjE1Ni0uNDY1IiBmaWxsPSIjZmZmIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48cGF0aCBkPSJNMCAxNS44OTJWMGgxNS44OTJ2MTUuODkyeiIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==";
 
     function span(text) {
         let el = document.createElement('span')
-        el.innerHTML = text
+        el.innerText = text
         el.style.display = 'hidden'
         el.style.whiteSpace = 'nowrap'
         el.style.width = '100%'
@@ -29,41 +29,20 @@
     class IteratorType {
         customId = "divIterator"
         consumed = 0
-        done = false
+        done = false;
 
-        constructor(kind = "Empty", gen = function*(){}) {
+        constructor(kind = "Empty", state = {}, next = function*() {return {value: undefined, done: true}}) {
             this.kind = [].concat(kind);
-            this.gen = gen.apply(this);
-            this.thread = {};
-            console.log(gen)
-        }
-
-        getIterChain() {
-            return this.kind
-            .map(k => typeof k === "string" ? k
-                : k.kind && k.args ? `${k.kind}(${
-                    k.args.map(i => i instanceof IteratorType ? i.getIterChain() : i.toString()).join(",")
-                })`
-                : ""
-            )
-            .join("↦")
-        }
-        
-        getIterKind() {
-            const kind = this.kind[this.kind.length-1]
-            return typeof kind === "string" ? kind : kind.kind ?? ''
+            this.state = state;
+            this.iterNext = next;
         }
 
         jwArrayHandler() {
-            return `Iterator`
+            return `Iterator<${this.consumed}>`
         }
-
-        chainIter(kind, gen) {return new IteratorType(this.kind.concat(kind), gen)}
-
         toString() {
             return `${this.getIterKind()} Iterator`
         }
-
         toReporterContent() {
             const root = document.createElement('div');
             root.style.display = 'flex';
@@ -77,7 +56,6 @@
             }
             return root;
         }
-
         toMonitorContent() {
             const root = document.createElement('div');
             root.style.display = 'flex';
@@ -92,132 +70,378 @@
             return root;
         }
 
+        getIterChain() {
+            return this.kind
+            .map(k => typeof k === "string" ? k
+                : k.kind && k.args ? `${k.kind}(${
+                    k.args.map(i => i instanceof IteratorType ? i.getIterChain() : i.toString()).join(",")
+                })`
+                : ""
+            ).join("↦")
+        }
+        getIterKind() {
+            const kind = this.kind[this.kind.length-1]
+            return typeof kind === "string" ? kind : kind.kind ?? ''
+        }
+
         static toIterator(x) {
             if(x instanceof IteratorType) return x;
             return new IteratorType();
         }
 
-        next(thread) {
-            if(thread) this.thread = thread
-            const next = this.gen.next();
-            if(next.value) this.consumed++;
-            this.done ||= next.done;
-            return next.value
+        chainIter(kind, state, next) {return new IteratorType(this.kind.concat(kind), state, next)}
+
+        *next(thread, target, runtime, stage) {
+            if(this.done) return divIterator.Done()
+            const next = yield* this.iterNext.apply(this, [this.state, thread, target, runtime, stage]);
+            if(next.done) this.done = true;
+            else this.consumed++;
+            return next
         }
 
-        [Symbol.iterator]() {
-            return this
-        }
-
-        // yield undefined values and only return when an actual item is found
-        *yieldNext(thread) {
-            while(!this.done) {
-                const item = this.next(thread)
-                if(this.done) break;
-                if(item !== undefined) return item
-                yield
-            }
-        }
-
-        *iterTo(name, yielder, thread) {
-            return yield* vm.runtime.divIterables.get(name)?.fromIter?.apply(this, [yielder, thread])
+        clone() {
+            const state = Object.fromEntries(Object.entries(this.state).map(([key, val]) => [key, 
+                val instanceof IteratorType ? val.clone() : val
+            ]))
+            const clone = new IteratorType(this.kind, state, this.iterNext);
+            clone.consumed = this.consumed;
+            return clone
         }
     }
 
     const divIterator = {
+        Item: (value) => ({value, done: false}),
+        Done: () => ({value: undefined, done: true}),
         Type: IteratorType,
         Block: {
             blockType: BlockType.REPORTER,
-            blockShape: "divIterator-iter", // BlockShape.ARROW,
+            //blockShape: "divIterator", 
+            blockShape: vm.pmVersion ? BlockShape.ARROW : "divIterator",
             forceOutputType: "Iterator",
             allowDropAnywhere: true,
             disableMonitor: true
         },
-        // Branched: {
-        //     blockType: BlockType.REPORTER,
-        //     blockShape: "divIterator-iterBranched", // BlockShape.ARROW,
-        //     forceOutputType: "Iterator",
-        //     allowDropAnywhere: true,
-        //     disableMonitor: true
-        // },
         Argument: {
-            shape: "divIterator-iter", // BlockShape.ARROW,
+            shape: vm.pmVersion ? BlockShape.ARROW : "divIterator",
             exemptFromNormalization: true,
             check: ["Iterator"]
         },
+
+        // Extensions depending on Iterators may feel free to use
+        // Any of these :Fabrication: :dingly: :Fabrication: :Fabrication:
+        Iterables: {
+            range(start, end) {
+                const advance = n => n + (start < end ? 1 : -1);
+                return new IteratorType("Range",
+                    {curr: start}, function*(state){
+                    const {curr} = state;
+                    if(curr == advance(end)) return divIterator.Done()
+                    state.curr = advance(curr);
+                    return divIterator.Item(curr)
+                });
+            },
+            iterOver(val) {
+                if(val instanceof IteratorType) return val
+                if(typeof val.divIntoIterHandler === "function") 
+                    return val.divIntoIterHandler(IteratorType, {Item: divIterator.Item, Done: divIterator.Done})
+                
+                const iterCommon = (val, kind) =>
+                    new IteratorType(kind,
+                    {i: 0}, function*(state) {
+                    return state.i >= val.length 
+                    ? divIterator.Done() 
+                    : divIterator.Item(val[state.i++])
+                });
+                if(["string", "number", "boolean"].includes(typeof val)) 
+                    return iterCommon(Cast.toString(val), "String");
+                if(val instanceof jwArray.Type) return iterCommon(val.array, "Array");
+                if(vm.dogeiscutObject && val instanceof vm.dogeiscutObject.Type)
+                    return iterCommon(Object.entries(val.object).map(([key, value]) => {
+                        return new jwArray.Type([key, vm.dogeiscutObject.Type.convertIfNeeded(value)]);
+                    }),"Object")
+                return new IteratorType()
+            },
+            iterBuilder(state, next) {
+                return new IteratorType("Custom", {state}, next)
+            }
+        },
+        Adapters: {
+            map(iter, map) {
+                iter = IteratorType.toIterator(iter)
+                return iter.chainIter("Map", 
+                    {iter}, function*(state, thread, target, runtime, stage) {
+                    const {iter} = state;
+                    const item = yield* iter.next(thread, target, runtime, stage)
+                    if(item.done) return item
+                    const mapped = yield* map(item.value, thread, target, runtime, stage);
+                    return divIterator.Item(mapped)
+                })
+            },
+            keep(iter, pred) {
+                iter = IteratorType.toIterator(iter)
+                return iter.chainIter("Keep", 
+                    {iter}, function*(state, thread, target, runtime, stage) {
+                    let item, bool;
+                    while(true) {
+                        item = yield* state.iter.next(thread, target, runtime, stage)
+                        if(item.done) return item
+                        bool = yield* pred(item.value, thread, target, runtime, stage);
+                        if(bool) return item
+                    }
+                })
+            },
+
+            enum(iter) {
+                iter = IteratorType.toIterator(iter)
+                return iter.chainIter("Enumerate",
+                    {iter, num: 1}, function*(state, thread, target, runtime, stage) {
+                    const item = yield* state.iter.next(thread, target, runtime, stage); 
+                    if(item.done) return item
+                    return divIterator.Item(new jwArray.Type([state.num++, item.value]))
+                })
+            },
+            cycle(iter) {
+                iter = IteratorType.toIterator(iter)
+                return iter.chainIter("Cycle", 
+                    {iter, buffer: [], i: 0}, function*(state, thread, target, runtime, stage) {
+                    const item = yield* state.iter.next(thread, target, runtime, stage);
+                    if(item.done) {
+                        if(state.buffer.length == 0) return divIterator.Done()
+                        state.i %= state.buffer.length
+                        return state.buffer[state.i++]
+                    }
+                    state.buffer.push(item)
+                    return item;
+                })
+            },
+
+            take(iter, count) {
+                iter = IteratorType.toIterator(iter)
+                return iter.chainIter({kind: "Take", args: [count]},
+                    {iter, count}, function*(state, thread, target, runtime, stage) {
+                    if(state.count <= 0) return divIterator.Done()
+                    const item = yield* state.iter.next(thread, target, runtime, stage);
+                    if(item.done) return item
+                    state.count--;
+                    return item;
+                })
+            },
+            skip(iter, count) {
+                iter = IteratorType.toIterator(iter)
+                return iter.chainIter({kind: "Skip", args: [count]},
+                    {iter, count}, function*(state, thread, target, runtime, stage) {
+                    while(state.count > 0) {
+                        const item = yield* state.iter.next(thread, target, runtime, stage);
+                        if(item.done) return item
+                        state.count--;
+                    }
+                    return yield* state.iter.next(thread, target, runtime, stage)
+                })
+            },
+            stepBy(iter, step) {
+                iter = IteratorType.toIterator(iter)
+                return iter.chainIter({kind: "StepBy", args: [step]},
+                    {iter, first: true}, function*(state, thread, target, runtime, stage) {
+                    if(state.first) {
+                        state.first = false;
+                        return yield* state.iter.next(thread, target, runtime, stage);
+                    }
+                    for(let i = 1; i < step; i++) {
+                        const item = yield* state.iter.next(thread, target, runtime, stage);
+                        if(item.done) return item
+                    }
+                    return yield* state.iter.next(thread, target, runtime, stage)
+                })
+            },
+
+            chain(iter1, iter2) {
+                iter1 = IteratorType.toIterator(iter1)
+                iter2 = IteratorType.toIterator(iter2)
+                return iter1.chainIter({kind: "Chain", args: [iter2]},
+                    {iter1, iter2}, function*(state, thread, target, runtime, stage) {
+                    const item1 = yield* state.iter1.next(thread, target, runtime, stage);
+                    if(!item1.done) return item1
+                    return yield* state.iter2.next(thread, target, runtime, stage)
+                })
+            },
+            zip(iter1, iter2) {
+                iter1 = IteratorType.toIterator(iter1)
+                iter2 = IteratorType.toIterator(iter2)
+                return iter1.chainIter({kind: "Zip", args: [iter2]},
+                    {iter1, iter2}, function*(state, thread, target, runtime, stage) {
+                    const item1 = yield* state.iter1.next(thread, target, runtime, stage);
+                    if(item1.done) return item1
+                    const item2 = yield* state.iter2.next(thread, target, runtime, stage);
+                    if(item2.done) return item2
+                    return divIterator.Item(new jwArray.Type([item1.value, item2.value]))
+                })
+            },
+            cross(iter1, iter2) {
+                iter1 = IteratorType.toIterator(iter1)
+                iter2 = IteratorType.toIterator(iter2)
+                return iter1.chainIter({kind: "Cross", args: [iter2]},
+                    {iter1, buffer: [], i: 0, iter2, item2: null}, function*(state, thread, target, runtime, stage) {
+                    const item1 = yield* state.iter1.next(thread, target, runtime, stage);
+                    if(item1.done) {
+                        if(state.buffer.length == 0) return divIterator.Done()
+                        state.i %= state.buffer.length
+                        if(state.i == 0) {
+                            const item2 = yield* state.iter2.next(thread, target, runtime, stage)
+                            if(item2.done) return divIterator.Done()
+                            state.item2 = item2.value;
+                        }
+                        return divIterator.Item(new jwArray.Type([state.buffer[state.i++], state.item2]))
+                    }
+                    if(state.item2 == null) {
+                        const item2 = yield* state.iter2.next(thread, target, runtime, stage)
+                        if(item2.done) return divIterator.Done()
+                        state.item2 = item2.value;
+                    }
+                    state.buffer.push(item1.value)
+                    return divIterator.Item(new jwArray.Type([item1.value, state.item2]));
+                })
+            },
+            
+            inspect(iter, inspect) {
+                iter = IteratorType.toIterator(iter)
+                return iter.chainIter("Inspect", 
+                    {iter}, function*(state, thread, target, runtime, stage) {
+                    const {iter} = state;
+                    const item = yield* iter.next(thread, target, runtime, stage)
+                    if(item.done) return item
+                    yield* inspect(item.value, thread, target, runtime, stage);
+                    return item
+                })
+            },
+        },
+        Terminators: {
+            // Unlike Iterables and Adapters which directly return iterators
+            // with no additional effects (yields), terminators are intended
+            // to be eagerly run so they will yield
+            *count(iter, yieldLoop, thread, target, runtime, stage) {
+                iter = IteratorType.toIterator(iter)
+                for(let i = 0;; i++) {
+                    const item = yield* iter.next(thread, target, runtime, stage)
+                    if(item.done) return i
+                    // With this one simple trick, you can make
+                    // your loops 10x faster!1!!1
+                    // (Is this unsafe?)
+                    if((i+1) % 10 == 0) yield* yieldLoop()
+                }
+            },
+
+            *fold(iter, init, fold, yieldLoop, thread, target, runtime, stage) {
+                iter = IteratorType.toIterator(iter)
+                let acc = init
+                for(let i = 0;; i++) {
+                    const item = yield* iter.next(thread, target, runtime, stage)
+                    if(item.done) return acc
+                    acc = yield* fold(acc, item.value, thread, target, runtime, stage)
+                    if((i+1) % 10 == 0) yield* yieldLoop()
+                }
+            },
+            *any(iter, pred, yieldLoop, thread, target, runtime, stage) {
+                iter = IteratorType.toIterator(iter)
+                for(let i = 0;; i++) {
+                    const item = yield* iter.next(thread, target, runtime, stage)
+                    if(item.done) return false
+                    if(yield* pred(item.value, thread, target, runtime, stage)) return true
+                    if((i+1) % 10 == 0) yield* yieldLoop()
+                }
+            },
+            *all(iter, pred, yieldLoop, thread, target, runtime, stage) {
+                iter = IteratorType.toIterator(iter)
+                for(let i = 0;; i++) {
+                    const item = yield* iter.next(thread, target, runtime, stage)
+                    if(item.done) return true
+                    if(!(yield* pred(item.value, thread, target, runtime, stage))) return false
+                    if((i+1) % 10 == 0) yield* yieldLoop()
+                }
+            },
+            *collectTo(iter, type, yieldLoop, thread, target, runtime, stage) {
+                iter = IteratorType.toIterator(iter)
+                switch (type) {
+                    case "String":
+                        return yield* divIterator.Terminators.fold(iter, "", 
+                            function*(acc, item) {return acc + Cast.toString(item)}, 
+                            yieldLoop, thread, target, runtime, stage
+                        )
+                    case "Array":
+                        return new jwArray.Type(yield* divIterator.Terminators.fold(iter, [], 
+                            function*(acc, item) {return [...acc, item]}, 
+                            yieldLoop, thread, target, runtime, stage
+                        ))
+                    case "Object":
+                        const arr = new jwArray.Type(yield* divIterator.Terminators.fold(iter, [], 
+                            function*(acc, item) {return [...acc, item]}, 
+                            yieldLoop, thread, target, runtime, stage
+                        ))
+                        try {
+                            return new vm.dogeiscutObject.Type(Object.assign(Object.create(null),
+                                Object.fromEntries(arr.array.map((value) => value.array ? value.array : value))
+                            ))
+                        } catch {}
+                        return new vm.dogeiscutObject.Type()
+                }
+                if(vm.divFromIter && typeof vm.divFromIter.get(type) === "function")
+                    return yield* vm.divFromIter.get(type)(iter, yieldLoop, thread, target, runtime, stage)
+            }
+        }
     }
 
-    function registerString() {
-        vm.runtime.divIterables ??= new Map()
-        vm.runtime.divIterables.set("string", {
-            type: String,
-            toIter() {
-                const str = this;
-                return new vm.divIterator.Type("String", function*() {
-                    for(let i = 0; i < str.length; i++) yield str[i]
-                })
-            },
-            *fromIter(yielder, thread) {
-                let str = ''
-                while(!this.done) {
-                    const item = yield* this.yieldNext(thread)
-                    if(this.done) break
-                    str += Cast.toString(item)
-                    yield* yielder();
-                }
-                return str
-            }
-        })
+    function descendInput(compiler, input, frame) {
+        if(frame == null) return compiler.descendInput(input)
+        compiler.pushFrame(frame)
+        const res = compiler.descendInput(input);
+        compiler.popFrame()
+        return res
     }
-    function registerjwArray() {
-        vm.runtime.divIterables ??= new Map()
-        vm.runtime.divIterables.set("array", {
-            type: vm.jwArray.Type, 
-            toIter() {
-                const {array} = this;
-                return new vm.divIterator.Type("Array", function*() {
-                    for(let i = 0; i < array.length; i++) yield array[i]
-                })
-            },
-            *fromIter(yielder, thread) {
-                let array = []
-                while(!this.done) {
-                    const item = yield* this.yieldNext(thread)
-                    if(this.done) break
-                    array.push(item)
-                    yield* yielder();
-                }
-                return new vm.jwArray.Type(array)
-            }
-        })
+
+    function descendSubstack(compiler, substack, frame) {
+        const src = compiler.source; compiler.source = ""
+        compiler.descendStack(substack, frame)
+        const sub = compiler.source; compiler.source = src
+        return sub
     }
-    function registerdogeObject() {
-        vm.runtime.divIterables ??= new Map()
-        vm.runtime.divIterables.set("object", {
-            type: vm.dogeiscutObject.Type,
-            toIter() {
-                const {object} = this;
-                return new vm.divIterator.Type("Object", function*() {
-                    const entries = Object.entries(object).map(([key, value]) => {
-                        return new vm.jwArray.Type([key, vm.dogeiscutObject.Type.convertIfNeeded(value)]);
-                    });
-                    for(let i = 0; i < entries.length; i++) yield entries[i]
-                })
-            },
-            *fromIter(yielder, thread) {
-                const {array} = yield* this.iterTo("array", yielder, thread)
-                try {
-                    return new vm.dogeiscutObject.Type(Object.assign(Object.create(null),
-                        Object.fromEntries(array.map(val => val.array ?? val))
-                    ))
-                } catch {}
-                return new vm.dogeiscutObject.Type()
-            }
-        })
+
+    function yieldLoop(compiler) {
+        const src = compiler.source; compiler.source = ""
+        compiler.yieldLoop()
+        const ly = compiler.source; compiler.source = src
+        return ly
+    }
+
+    function inputThunk(compiler, input, args = null) {
+        const proc = compiler.localVariables.next();
+        return (/*js*/
+            `(function() {\n`
+           +`   const ${proc} = thread.procedures;`
+           +`   return function*(${args ? args + ', ' : '' }thread, target, runtime, stage) {\n`
+           +`       thread.procedures = {...${proc}, ...thread.procedures};\n`
+           +`       return ${input};\n`
+           +`   };\n`
+           +`})()`
+        )
+    }
+    function substackThunk(compiler, substack, args = null) {
+        const proc = compiler.localVariables.next();
+        return (/*js*/
+            `(function() {\n`
+           +`   const ${proc} = thread.procedures;`
+           +`   return function*(${args ? args + ', ' : '' }thread, target, runtime, stage) {\n`
+           +`       thread.procedures = {...${proc}, ...thread.procedures};\n`
+           +`       ${substack}\n`
+           +`   };\n`
+           +`})()`
+        )
     }
 
     class Extension {
         constructor() {
+            // Add jwArray
+            if (!vm.jwArray) vm.extensionManager.loadExtensionIdSync('jwArray')
+            jwArray = vm.jwArray
+
             vm.divIterator = divIterator
             vm.runtime.registerSerializer("divIterator",
                 _ => null,
@@ -225,84 +449,100 @@
             )
             vm.runtime.registerCompiledExtensionBlocks('divIterator', this.getCompileInfo());
 
-            registerString()
-            registerjwArray()
-            // registerdogeObject()
+            // Initialize FromIter registry if it hasn't been initialized yet
+            vm.divFromIter ??= new Map()
 
-            // Custom shape cause the built-in arrow... sux !!!
-            Scratch.gui.getBlockly().then(ScratchBlocks => {
-                ScratchBlocks.BlockSvg.registerCustomShape("divIterator-iter", {
-                    emptyInputPath: `m 16 0 h 15 q 3 0 5 2 l 8 8 q 3 3 3 4 v 4 q 0 1 -3 4 l -8 8 q -2 2 -5 2 h -15 h -11 c -2 0 -3 0 -4 -1 s -1 -3 0 -4 l 9 -9 v -4 l -8 -8 c -2 -2 -2 -4 -1 -5 s 2 -1 4 -1 h 11 z`,
-                    leftPath(block) {
-                        const edgeWidth = block.height / 2;
-                        const h = -2*Math.max(edgeWidth - 14*1.25, 0);
-                        return [
-                            block.inputList.some(i => i.type === ScratchBlocks.NEXT_STATEMENT) 
-                            ? `h -21 c -2.5 0 -3.75 0 -5 -1.25 s -1.25 -3.75 0 -5 l 11.25 -11.25 v ${h} l -10 -10 c -2.5 -2.5 -2.5 -5 -1.25 -6.25 s 2.5 -1.25 5 -1.25 h 21` 
-                            : `h ${-13.75 + h/2.} c -2.5 0 -3.75 0 -5 -1.25 s -1.25 -3.75 0 -5 l 11.25 -11.25 v ${h} l -10 -10 c -2.5 -2.5 -2.5 -5 -1.25 -6.25 s 2.5 -1.25 5 -1.25 h ${13.75 - h/2.}`
-                        ];
-                    },
-                    rightPath(block) {
-                        const edgeWidth = /*block.height/2.;*/ block.edgeShapeWidth_;
-                        const h = 2*Math.max(edgeWidth - 14*1.25, 0);
-                        return [`h ${h/2} q 3.75 0 6.25 2.5 l 10 10 q 3.75 3.75 3.75 5 v ${h} q 0 1.25 -3.75 5 l -10 10 q -2.5 2.5 -6.25 2.5 h ${-h/2}`];
-                    },
-                    outputLeftPadding(block) {
-                        return block.inputList.some(i => i.type == ScratchBlocks.NEXT_STATEMENT) 
-                        ? -block.height/2 + 22 : 0
-                    }
+            // If this isn't on the port, use a custom arrow shape
+            if(!vm.pmVersion) {
+                Scratch.gui.getBlockly().then(ScratchBlocks => {
+                    ScratchBlocks.BlockSvg.registerCustomShape("divIterator", {
+                        emptyInputPath: `m 16 0 h 15 q 3 0 5 2 l 8 8 q 3 3 3 4 v 4 q 0 1 -3 4 l -8 8 q -2 2 -5 2 h -15 h -11 c -2 0 -3 0 -4 -1 s -1 -3 0 -4 l 9 -9 v -4 l -8 -8 c -2 -2 -2 -4 -1 -5 s 2 -1 4 -1 h 11 z`,
+                        leftPath(block) {
+                            const edgeWidth = block.height / 2;
+                            const h = -2*Math.max(edgeWidth - 14*1.25, 0);
+                            return [
+                                block.inputList.some(i => i.type === ScratchBlocks.NEXT_STATEMENT) 
+                                ? `h -21 c -2.5 0 -3.75 0 -5 -1.25 s -1.25 -3.75 0 -5 l 11.25 -11.25 v ${h} l -10 -10 c -2.5 -2.5 -2.5 -5 -1.25 -6.25 s 2.5 -1.25 5 -1.25 h 21` 
+                                : `h ${-13.75 + h/2.} c -2.5 0 -3.75 0 -5 -1.25 s -1.25 -3.75 0 -5 l 11.25 -11.25 v ${h} l -10 -10 c -2.5 -2.5 -2.5 -5 -1.25 -6.25 s 2.5 -1.25 5 -1.25 h ${13.75 - h/2.}`
+                            ];
+                        },
+                        rightPath(block) {
+                            const edgeWidth = /*block.height/2.;*/ block.edgeShapeWidth_;
+                            const h = 2*Math.max(edgeWidth - 14*1.25, 0);
+                            return [`h ${h/2} q 3.75 0 6.25 2.5 l 10 10 q 3.75 3.75 3.75 5 v ${h} q 0 1.25 -3.75 5 l -10 10 q -2.5 2.5 -6.25 2.5 h ${-h/2}`];
+                        },
+                        outputLeftPadding(block) {
+                            return block.inputList.some(i => i.type == ScratchBlocks.NEXT_STATEMENT) 
+                            ? -block.height/2 + 22 : 0
+                        }
+                    });
                 });
-            });
-            // Branched variant (different path and overrides width)
-            // Scratch.gui.getBlockly().then(ScratchBlocks => {
-            //     ScratchBlocks.BlockSvg.registerCustomShape("divIterator-iterBranched", {
-            //         ... ScratchBlocks.BlockSvg.CUSTOM_SHAPES.get("custom-divIterator-iterNormal"),
-            //         leftPath(block) {
-            //             const edgeWidth = block.height / 2;
-            //             const h = -2*Math.max(edgeWidth - 14*1.25, 0);
-            //             return [`c -2.5 0 -3.75 0 -5 -1.25 s -1.25 -3.75 0 -5 l 11.25 -11.25 v ${h} l -10 -10 c -2.5 -2.5 -2.5 -5 -1.25 -6.25 s 2.5 -1.25 5 -1.25 h 13.75`];
-            //         },
-            //     });
-            // });
+            }
         }
-
         getInfo = () => ({
             id: "divIterator",
             name: "Iterators",
-            color1: "#e4415fff",
-            color2: "#b52c57ff",
+            color1: "#ff3662",
+            color2: "#7d101d",
+            color3: "#ac294f",
             menuIconURI,
             blocks: [
                 {
+                    opcode: 'iterItem',
+                    text: 'item',
+                    blockType: BlockType.REPORTER,
+                    hideFromPalette: true,
+                    allowDropAnywhere: true,
+                    canDragDuplicate: true
+                },
+                {
+                    opcode: 'iterAcc',
+                    text: 'acc',
+                    blockType: BlockType.REPORTER,
+                    hideFromPalette: true,
+                    allowDropAnywhere: true,
+                    canDragDuplicate: true
+                },
+
+                {
                     opcode: 'iterAdvance',
-                    text: 'advance [iter]',
+                    text: 'advance [ITER]',
                     disableMonitor: true,
                     blockType: BlockType.COMMAND,
                     arguments: {
-                        iter: divIterator.Argument
+                        ITER: divIterator.Argument
                     }
                 },
                 {
                     opcode: 'iterNext',
-                    text: 'next item from [iter]',
+                    text: 'next item from [ITER]',
                     disableMonitor: true,
                     blockType: BlockType.REPORTER,
                     blockShape: BlockShape.ROUND,
                     allowDropAnywhere: true,
                     arguments: {
-                        iter: divIterator.Argument
+                        ITER: divIterator.Argument
                     }
                 },
                 {
                     opcode: 'iterDone',
-                    text: '[iter] is done?',
+                    text: '[ITER] is done?',
                     disableMonitor: true,
                     blockType: BlockType.BOOLEAN,
                     allowDropAnywhere: true,
                     arguments: {
-                        iter: divIterator.Argument
+                        ITER: divIterator.Argument
                     }
                 },
+                {
+                    opcode: 'iterClone',
+                    text: 'clone [ITER]',
+                    arguments: {
+                        ITER: divIterator.Argument
+                    },
+                    ...divIterator.Block
+                },
+
 
                 {
                     blockType: BlockType.LABEL,
@@ -310,33 +550,33 @@
                 },
                 {
                     opcode: 'iterRange',
-                    text: 'range from [start] to [end]',
+                    text: 'range from [START] to [END]',
                     arguments: {
-                        start: {type: Scratch.ArgumentType.NUMBER, defaultValue: 1},
-                        end: {type: Scratch.ArgumentType.NUMBER, defaultValue: 10},
+                        START: {type: ArgumentType.NUMBER, defaultValue: 1},
+                        END: {type: ArgumentType.NUMBER, defaultValue: 10},
                     },
                     ...divIterator.Block
                 },
                 {
-                    opcode: 'iterOver',
-                    text: 'iterate over [itrbl]',
+                    opcode: 'iterIterOver',
+                    text: 'iter over [VAL]',
                     arguments: {
-                        itrbl: {
+                        VAL: {
                             type: Scratch.ArgumentType.STRING,
                             exemptFromNormalization: true
-                        }
+                        },
                     },
                     ...divIterator.Block
                 },
                 {
-                    opcode: 'iterCollectToType',
-                    text: '[iter] finally collect to [type]',
+                    opcode: 'iterCollectTo',
+                    text: '[ITER] finally collect to [TYPE]',
                     arguments: {
-                        iter: divIterator.Argument,
-                        type: {
+                        ITER: divIterator.Argument,
+                        TYPE: {
                             type: Scratch.ArgumentType.STRING,
                             menu: "fromIter",
-                            defaultValue: "array"
+                            defaultValue: "Array"
                         }
                     },
                     disableMonitor: true,
@@ -350,20 +590,12 @@
                     text: 'Iterator Adapters'
                 },
                 {
-                    opcode: 'iterItem',
-                    text: 'item',
-                    blockType: BlockType.REPORTER,
-                    hideFromPalette: true,
-                    allowDropAnywhere: true,
-                    canDragDuplicate: true
-                },
-                {
                     opcode: 'iterAdapterMap',
-                    text: '[iter] then map [I] [IMG] [map]',
+                    text: '[ITER] then map [I] [IMG] [MAP]',
                     arguments: {
-                        iter: divIterator.Argument,
+                        ITER: divIterator.Argument,
                         I: {fillIn: 'iterItem'},
-                        map: {
+                        MAP: {
                             type: Scratch.ArgumentType.STRING,
                             exemptFromNormalization: true
                         },
@@ -373,100 +605,94 @@
                 },
                 {
                     opcode: 'iterAdapterKeep',
-                    text: '[iter] then keep [I] if [pred]',
+                    text: '[ITER] then keep [I] if [PRED]',
                     arguments: {
-                        iter: divIterator.Argument,
+                        ITER: divIterator.Argument,
                         I: {fillIn: 'iterItem'},
-                        pred: {type: Scratch.ArgumentType.BOOLEAN},
+                        PRED: {type: Scratch.ArgumentType.BOOLEAN},
                     },
                     ...divIterator.Block
                 },
                 '---',
                 {
                     opcode: 'iterAdapterEnum',
-                    text: '[iter] then enumerate items',
+                    text: '[ITER] then enumerate items',
                     arguments: {
-                        iter: divIterator.Argument,
+                        ITER: divIterator.Argument,
                     },
                     ...divIterator.Block
                 },
                 {
                     opcode: 'iterAdapterCycle',
-                    text: '[iter] then cycle items',
+                    text: '[ITER] then cycle items',
                     arguments: {
-                        iter: divIterator.Argument,
+                        ITER: divIterator.Argument,
                     },
                     ...divIterator.Block
                 },
                 '---',
                 {
                     opcode: 'iterAdapterTake',
-                    text: '[iter] then take [count] items',
+                    text: '[ITER] then take [COUNT] items',
                     arguments: {
-                        iter: divIterator.Argument,
-                        count: {type: Scratch.ArgumentType.NUMBER, defaultValue: 4},
+                        ITER: divIterator.Argument,
+                        COUNT: {type: Scratch.ArgumentType.NUMBER, defaultValue: 4},
                     },
                     ...divIterator.Block
                 },
                 {
                     opcode: 'iterAdapterSkip',
-                    text: '[iter] then skip [count] items',
+                    text: '[ITER] then skip [COUNT] items',
                     arguments: {
-                        iter: divIterator.Argument,
-                        count: {type: Scratch.ArgumentType.NUMBER, defaultValue: 4},
+                        ITER: divIterator.Argument,
+                        COUNT: {type: Scratch.ArgumentType.NUMBER, defaultValue: 4},
                     },
                     ...divIterator.Block
                 },
                 {
                     opcode: 'iterAdapterStepBy',
-                    text: '[iter] then step by [count] items',
+                    text: '[ITER] then step by [STEP] items',
                     arguments: {
-                        iter: divIterator.Argument,
-                        count: {type: Scratch.ArgumentType.NUMBER, defaultValue: 2},
+                        ITER: divIterator.Argument,
+                        STEP: {type: Scratch.ArgumentType.NUMBER, defaultValue: 2},
                     },
                     ...divIterator.Block
                 },
                 '---',
                 {
                     opcode: 'iterAdapterChain',
-                    text: '[iter1] then chain with [iter2]',
+                    text: '[ITER1] then chain with [ITER2]',
                     arguments: {
-                        iter1: divIterator.Argument,
-                        iter2: divIterator.Argument,
+                        ITER1: divIterator.Argument,
+                        ITER2: divIterator.Argument,
                     },
                     ...divIterator.Block
                 },
                 {
                     opcode: 'iterAdapterZip',
-                    text: '[iter1] then zip with [iter2]',
-                    disableMonitor: true,
-                    blockType: BlockType.REPORTER,
-                    blockShape: BlockShape.SQUARE,
-                    allowDropAnywhere: true,
+                    text: '[ITER1] then zip with [ITER2]',
                     arguments: {
-                        iter1: divIterator.Argument,
-                        iter2: divIterator.Argument,
+                        ITER1: divIterator.Argument,
+                        ITER2: divIterator.Argument,
                     },
                     ...divIterator.Block
                 },
-                '---',
                 {
-                    opcode: 'iterAdapterFlatten',
-                    text: '[iter] then flatten with depth [depth]',
+                    opcode: 'iterAdapterCross',
+                    text: '[ITER1] then cross with [ITER2]',
                     arguments: {
-                        iter: divIterator.Argument,
-                        depth: {type: Scratch.ArgumentType.NUMBER, defaultValue: 1},
+                        ITER1: divIterator.Argument,
+                        ITER2: divIterator.Argument,
                     },
                     ...divIterator.Block
                 },
-
                 '---',
                 {
                     opcode: 'iterAdapterInspect',
-                    text: '[iter] then inspect [I]',
+                    text: '[ITER] then inspect [I]',
                     branchCount: 1,
                     arguments: {
-                        iter: divIterator.Argument,
+                        ITER: divIterator.Argument,
                         I: {fillIn: 'iterItem'},
                     },
                     branches: [{}],
@@ -478,36 +704,29 @@
                     text: 'Iterator Terminators'
                 },
                 {
-                    opcode: 'iterAcc',
-                    text: 'acc',
-                    blockType: BlockType.REPORTER,
-                    hideFromPalette: true,
-                    allowDropAnywhere: true,
-                    canDragDuplicate: true
-                },
-                {
                     opcode: 'iterTermCount',
-                    text: '[iter] finally count items',
+                    text: '[ITER] finally count items',
                     blockType: BlockType.REPORTER,
                     arguments: {
-                        iter: divIterator.Argument,
+                        ITER: divIterator.Argument,
                     },
                 },
+
                 {
                     opcode: 'iterTermFold',
-                    text: '[iter] finally reduce [init] with [A] [I] [IMG] [fold]',
+                    text: '[ITER] finally reduce [INIT] with [A] [I] [IMG] [FOLD]',
                     disableMonitor: true,
                     blockType: BlockType.REPORTER,
                     blockShape: BlockShape.ROUND,
                     allowDropAnywhere: true,
                     arguments: {
-                        iter: divIterator.Argument,
-                        init: {
+                        ITER: divIterator.Argument,
+                        INIT: {
                             type: Scratch.ArgumentType.STRING,
                             defaultValue: "foo",
                             exemptFromNormalization: true
                         },
-                        fold: {
+                        FOLD: {
                             type: Scratch.ArgumentType.STRING,
                             exemptFromNormalization: true
                         },
@@ -518,26 +737,26 @@
                 },
                 {
                     opcode: 'iterTermAny',
-                    text: '[iter] finally any [I] [IMG] [pred]',
+                    text: '[ITER] finally any [I] [IMG] [PRED]',
                     disableMonitor: true,
                     blockType: BlockType.BOOLEAN,
                     allowDropAnywhere: true,
                     arguments: {
-                        iter: divIterator.Argument,
-                        pred: {type: Scratch.ArgumentType.BOOLEAN},
+                        ITER: divIterator.Argument,
+                        PRED: {type: Scratch.ArgumentType.BOOLEAN},
                         I: {fillIn: 'iterItem'},
                         IMG: { type: Scratch.ArgumentType.IMAGE, dataURI: arrowURI }
                     }
                 },
                 {
                     opcode: 'iterTermAll',
-                    text: '[iter] finally all [I] [IMG] [pred]',
+                    text: '[ITER] finally all [I] [IMG] [PRED]',
                     disableMonitor: true,
                     blockType: BlockType.BOOLEAN,
                     allowDropAnywhere: true,
                     arguments: {
-                        iter: divIterator.Argument,
-                        pred: {type: Scratch.ArgumentType.BOOLEAN},
+                        ITER: divIterator.Argument,
+                        PRED: {type: Scratch.ArgumentType.BOOLEAN},
                         I: {fillIn: 'iterItem'},
                         IMG: { type: Scratch.ArgumentType.IMAGE, dataURI: arrowURI }
                     }
@@ -545,70 +764,125 @@
                 '---',
                 {
                     opcode: 'iterTermForEach',
-                    text: 'for [I] of [iter]',
+                    text: 'for [I] of [ITER]',
                     blockType: BlockType.LOOP,
                     branchCount: 1,
                     arguments: {
-                        iter: divIterator.Argument,
+                        ITER: divIterator.Argument,
                         I: {fillIn: 'iterItem'},
                     },
                 },
 
-                // Arrays are just part of iterables now :)
-                // {
-                //     blockType: BlockType.LABEL,
-                //     text: 'Array iteration'
-                // },
-                // {
-                //     opcode: 'iterArray',
-                //     text: 'iterate over array [arr]',
-                //     arguments: {
-                //         arr: jwArray.Argument
-                //     },
-                //     ...divIterator.Block
-                // },
-                // {
-                //     opcode: 'iterCollectToArray',
-                //     text: '[iter] finally collect to array',
-                //     arguments: {
-                //         iter: divIterator.Argument
-                //     },
-                //     ...jwArray.Block
-                // },
-
+                {
+                    blockType: BlockType.LABEL,
+                    text: 'Iterator Builder'
+                },
+                {
+                    opcode: 'iterBuilder',
+                    text: 'iterator builder with [S] = [STATE]',
+                    branchCount: 1,
+                    arguments: {
+                        STATE: {
+                            type: Scratch.ArgumentType.STRING,
+                            exemptFromNormalization: true
+                        },
+                        S: {fillIn: 'iterBuilderGetState'},
+                    },
+                    branches: [{}],
+                    ...divIterator.Block
+                },
+                {
+                    opcode: 'iterBuilderGetState',
+                    text: 'state',
+                    blockType: BlockType.REPORTER,
+                    hideFromPalette: true,
+                    allowDropAnywhere: true,
+                    canDragDuplicate: true
+                },
+                {
+                    opcode: 'iterBuilderSetState',
+                    text: 'set state to [STATE]',
+                    disableMonitor: true,
+                    blockType: BlockType.COMMAND,
+                    arguments: {
+                        STATE: {
+                            type: Scratch.ArgumentType.STRING,
+                            exemptFromNormalization: true
+                        }
+                    }
+                },
+                {
+                    opcode: 'iterBuilderItem',
+                    text: 'return item [ITEM]',
+                    disableMonitor: true,
+                    blockType: BlockType.COMMAND,
+                    isTerminal: true,
+                    arguments: {
+                        ITEM: {
+                            type: Scratch.ArgumentType.STRING,
+                            exemptFromNormalization: true
+                        }
+                    }
+                },
+                {
+                    opcode: 'iterBuilderDone',
+                    text: 'finish iterator',
+                    disableMonitor: true,
+                    blockType: BlockType.COMMAND,
+                    isTerminal: true,
+                },
             ],
             menus: {
                 fromIter: {
                     acceptReporters: false,
-                    items: [...vm.runtime.divIterables.keys()]
-                    .map(name => ({text: name, value: name}))
+                    items: 'getFromIterMenu'
                 }
             }
         })
 
+        getFromIterMenu() {
+            return ["String", "Array", ...(vm.dogeiscutObject ? ["Object"] : [])].map(s => ({
+                text: s,
+                value: s,
+            }))
+        }
+
         getCompileInfo = () => ({
             ir: {
+                iterItem: (generator, block) => {
+                    generator.script.yields = true
+                    return {
+                        kind: 'input',
+                    }
+                },
+                iterAcc: (generator, block) => {
+                    generator.script.yields = true
+                    return {
+                        kind: 'input',
+                    }
+                },
+
                 iterAdvance: (generator, block) => {
                     generator.script.yields = true
                     return {
                         kind: 'stack',
-                        iter: generator.descendInputOfBlock(block, 'iter'),
+                        ITER: generator.descendInputOfBlock(block, 'ITER'),
                     }
                 },
                 iterNext: (generator, block) => {
                     generator.script.yields = true
                     return {
                         kind: 'input',
-                        iter: generator.descendInputOfBlock(block, 'iter'),
+                        ITER: generator.descendInputOfBlock(block, 'ITER'),
                     }
                 },
 
-                iterCollectToType: (generator, block) => {
+                iterCollectTo: (generator, block) => {
                     generator.script.yields = true
                     return {
                         kind: 'input',
-                        iter: generator.descendInputOfBlock(block, 'iter'),
-                        type: block.fields.type.value
+                        ITER: generator.descendInputOfBlock(block, 'ITER'),
+                        TYPE: block.fields.TYPE.value
                     }
                 },
 
@@ -616,24 +890,33 @@
                     generator.script.yields = true
                     return {
                         kind: 'input',
-                        iter: generator.descendInputOfBlock(block, 'iter'),
-                        map: generator.descendInputOfBlock(block, 'map'),
+                        ITER: generator.descendInputOfBlock(block, 'ITER'),
+                        MAP: generator.descendInputOfBlock(block, 'MAP'),
                     }
                 },
                 iterAdapterKeep: (generator, block) => {
                     generator.script.yields = true
                     return {
                         kind: 'input',
-                        iter: generator.descendInputOfBlock(block, 'iter'),
-                        pred: generator.descendInputOfBlock(block, 'pred'),
+                        ITER: generator.descendInputOfBlock(block, 'ITER'),
+                        PRED: generator.descendInputOfBlock(block, 'PRED'),
                     }
                 },
+                
                 iterAdapterInspect: (generator, block) => {
                     generator.script.yields = true
                     return {
                         kind: 'input',
-                        iter: generator.descendInputOfBlock(block, 'iter'),
-                        substack: generator.descendSubstack(block, 'SUBSTACK')
+                        ITER: generator.descendInputOfBlock(block, 'ITER'),
+                        INSPECT: generator.descendSubstack(block, 'SUBSTACK'),
+                    }
+                },
+                
+                iterTermCount: (generator, block) => {
+                    generator.script.yields = true
+                    return {
+                        kind: 'input',
+                        ITER: generator.descendInputOfBlock(block, 'ITER'),
                     }
                 },
 
@@ -641,279 +924,268 @@
                     generator.script.yields = true
                     return {
                         kind: 'input',
-                        iter: generator.descendInputOfBlock(block, 'iter'),
-                        init: generator.descendInputOfBlock(block, 'init'),
-                        fold: generator.descendInputOfBlock(block, 'fold'),
+                        ITER: generator.descendInputOfBlock(block, 'ITER'),
+                        INIT: generator.descendInputOfBlock(block, 'INIT'),
+                        FOLD: generator.descendInputOfBlock(block, 'FOLD'),
                     }
                 },
                 iterTermAny: (generator, block) => {
                     generator.script.yields = true
                     return {
                         kind: 'input',
-                        iter: generator.descendInputOfBlock(block, 'iter'),
-                        pred: generator.descendInputOfBlock(block, 'pred'),
+                        ITER: generator.descendInputOfBlock(block, 'ITER'),
+                        PRED: generator.descendInputOfBlock(block, 'PRED'),
                     }
                 },
                 iterTermAll: (generator, block) => {
                     generator.script.yields = true
                     return {
                         kind: 'input',
-                        iter: generator.descendInputOfBlock(block, 'iter'),
-                        pred: generator.descendInputOfBlock(block, 'pred'),
+                        ITER: generator.descendInputOfBlock(block, 'ITER'),
+                        PRED: generator.descendInputOfBlock(block, 'PRED'),
                     }
                 },
-                iterTermCount: (generator, block) => {
-                    generator.script.yields = true
-                    return {
-                        kind: 'input',
-                        iter: generator.descendInputOfBlock(block, 'iter'),
-                    }
-                },
+
                 iterTermForEach: (generator, block) => {
                     generator.script.yields = true
                     return {
                         kind: 'stack',
-                        iter: generator.descendInputOfBlock(block, 'iter'),
-                        substack: generator.descendSubstack(block, 'SUBSTACK')
+                        ITER: generator.descendInputOfBlock(block, 'ITER'),
+                        SUBSTACK: generator.descendSubstack(block, 'SUBSTACK')
                     }
                 },
-
-                // iterItem: (generator, block) => {
-                //     generator.script.yields = false
-                //     return {
-                //         kind: 'input',
-                //     }
-                // },
+                
+                iterBuilder: (generator, block) => {
+                    generator.script.yields = true
+                    return {
+                        kind: 'input',
+                        STATE: generator.descendInputOfBlock(block, 'STATE'),
+                        NEXT: generator.descendSubstack(block, 'SUBSTACK'),
+                    }
+                },
+                iterBuilderGetState: (generator, block) => {
+                    generator.script.yields = true
+                    return {
+                        kind: 'input',
+                    }
+                },
+                iterBuilderSetState: (generator, block) => {
+                    generator.script.yields = true
+                    return {
+                        kind: 'stack',
+                        STATE: generator.descendInputOfBlock(block, 'STATE'),
+                    }
+                },
+                iterBuilderItem: (generator, block) => {
+                    generator.script.yields = true
+                    return {
+                        kind: 'stack',
+                        ITEM: generator.descendInputOfBlock(block, 'ITEM'),
+                    }
+                },
+                iterBuilderDone: (generator, block) => {
+                    generator.script.yields = true
+                    return {
+                        kind: 'stack',
+                    }
+                },
             },
             js: {
+                iterItem(node, compiler, imports) {
+                    if(compiler.frames.some(f => f.parent === "_divIterItem" || f.parent === "_divIterAcc"))
+                        return new imports.TypedInput("_divIterItem", imports.TYPE_UNKNOWN);
+                    return new imports.TypedInput("''", imports.TYPE_UNKNOWN);
+                },
+                iterAcc(node, compiler, imports) {
+                    if(compiler.frames.some(f => f.parent === "_divIterAcc"))
+                        return new imports.TypedInput("_divIterAcc", imports.TYPE_UNKNOWN);
+                    return new imports.TypedInput("''", imports.TYPE_UNKNOWN);
+                },
+
                 iterAdvance(node, compiler, imports) {
-                    compiler.source += /*js*/`yield* vm.divIterator.Type.toIterator(${compiler.descendInput(node.iter).asUnknown()}).yieldNext(thread);\n`
+                    const iter = compiler.localVariables.next();
+                    compiler.source += 
+                 /*js*/`const ${iter} = vm.divIterator.Type.toIterator(${compiler.descendInput(node.ITER).asUnknown()});\n`
+                +/*js*/`yield* ${iter}.next(thread, target, runtime, stage);\n`
                 },
                 iterNext(node, compiler, imports) {
+                    const iter = compiler.localVariables.next(),
+                          item = compiler.localVariables.next();
                     return new imports.TypedInput(
-                 /*js*/`((yield* vm.divIterator.Type.toIterator(${compiler.descendInput(node.iter).asUnknown()}).yieldNext(thread)) ?? '')`
+                 /*js*/`(yield* (function*() {\n`
+                      +`    const ${iter} = vm.divIterator.Type.toIterator(${compiler.descendInput(node.ITER).asUnknown()});\n`
+                      +`    const ${item} = yield* ${iter}.next(thread, target, runtime, stage);\n`
+                      +`    return ${item}.done ? '' : ${item}.value;\n`
+                      +`})())`
                     , imports.TYPE_UNKNOWN)
                 },
 
-                iterCollectToType(node, compiler, imports) {
-                    // Loop Yield
-                    const src = compiler.source
-                    compiler.source = ""; compiler.yieldLoop()
-                    const yielder = compiler.source; compiler.source = src;
+                iterCollectTo(node, compiler, imports) {
+                    const iter = compiler.descendInput(node.ITER).asUnknown();
                     return new imports.TypedInput(
-                /*js*/ `(yield* vm.divIterator.Type.toIterator(${compiler.descendInput(node.iter).asUnknown()}).iterTo('${node.type}', function*(){${yielder}}, thread))`
+                 /*js*/`(yield* vm.divIterator.Terminators.collectTo(\n`
+                      +`    ${iter}, '${node.TYPE}',\n`
+                      +`    function*() {${yieldLoop(compiler)}},\n`
+                      +`thread, target, runtime, stage))\n`
                     , imports.TYPE_UNKNOWN)
                 },
 
                 iterAdapterMap(node, compiler, imports) {
-                    const iter = compiler.localVariables.next();
+                    const iter = compiler.descendInput(node.ITER).asUnknown();
+                    const map = descendInput(compiler, node.MAP, new imports.Frame(true, "_divIterItem",))
+                        .asUnknown();
                     return new imports.TypedInput(
-                 /*js*/`(yield* (function*() {\n`
-                      +`    const ${iter} = vm.divIterator.Type.toIterator(${compiler.descendInput(node.iter).asUnknown()});\n`
-                      +`    return ${iter}.chainIter("Map", function*() {\n`
-                      +`        while(!${iter}.done) {\n`
-                      +`            this.thread._divIterItem ??= [];\n`
-                      +`            this.thread._divIterItem.push(yield* ${iter}.yieldNext(this.thread));\n`
-                      +`            if(!${iter}.done) yield (${compiler.descendInput(node.map).asUnknown()});\n`
-                      +`            this.thread._divIterItem.pop();\n`
-                      +`        };\n`
-                      +`    })\n`
-                      +`})())`
+                 /*js*/`vm.divIterator.Adapters.map(\n`
+                      +`    ${iter},\n`
+                      +`    ${inputThunk(compiler, map, '_divIterItem')}\n`
+                      +`)\n`
                     , imports.TYPE_UNKNOWN)
                 },
                 iterAdapterKeep(node, compiler, imports) {
-                    const iter = compiler.localVariables.next();
-                    // Loop Yield
-                    const src = compiler.source
-                    compiler.source = ""; compiler.yieldLoop()
-                    const yielder = compiler.source; compiler.source = src;
+                    const iter = compiler.descendInput(node.ITER).asUnknown();
+                    const pred = descendInput(compiler, node.PRED, new imports.Frame(true, "_divIterItem"))
+                        .asBoolean();
                     return new imports.TypedInput(
-                 /*js*/`(yield* (function*() {\n`
-                      +`    const ${iter} = vm.divIterator.Type.toIterator(${compiler.descendInput(node.iter).asUnknown()});\n`
-                      +`    return ${iter}.chainIter("Keep", function*() {\n`
-                      +`        while(!${iter}.done) {\n`
-                      +`            this.thread._divIterItem ??= [];\n`
-                      +`            this.thread._divIterItem.push(yield* ${iter}.yieldNext(this.thread));\n`
-                      +`            if(!${iter}.done && (${compiler.descendInput(node.pred).asBoolean()})) yield this.thread._divIterItem.pop();\n`
-                      +`            ${yielder};\n`
-                      +`        };\n`
-                      +`    })\n`
-                      +`})())`
+                 /*js*/`vm.divIterator.Adapters.keep(\n`
+                      +`    ${iter},\n`
+                      +`    ${inputThunk(compiler, pred, '_divIterItem')}\n`
+                      +`)\n`
                     , imports.TYPE_UNKNOWN)
                 },
-                iterAdapterInspect: (node, compiler, imports) => {
-                    const iter = compiler.localVariables.next();
-                    const src = compiler.source
-                    compiler.source = ""
-                    compiler.descendStack(node.substack, new imports.Frame(true, "divIterator.iterAdapterInspect"))
-                    compiler.yieldLoop()
-                    const substack = compiler.source
-                    compiler.source = src;
+
+                iterAdapterInspect(node, compiler, imports) {
+                    const iter = compiler.descendInput(node.ITER).asUnknown();
+                    const inspect = descendSubstack(compiler, node.INSPECT, new imports.Frame(false, "_divIterItem"));
                     return new imports.TypedInput(
-                 /*js*/`(yield* (function*() {\n`
-                      +`    const ${iter} = vm.divIterator.Type.toIterator(${compiler.descendInput(node.iter).asUnknown()});\n`
-                      +`    return ${iter}.chainIter("Inspect", function*() {\n`
-                      +`        while(!${iter}.done) {\n`
-                      +`            this.thread._divIterItem ??= [];\n`
-                      +`            this.thread._divIterItem.push(yield* ${iter}.yieldNext(this.thread));\n`
-                      +`            const origThread = thread;\n`
-                      +`            thread = this.thread;\n`
-                      +`            if(!${iter}.done) do {\n`
-                      +`                ${substack};\n`
-                      +`            } while(false);\n`
-                      +`            thread = origThread;\n`
-                      +`            yield this.thread._divIterItem.pop();\n`
-                      +`        };\n`
-                      +`    })\n`
-                      +`})())`
+                 /*js*/`vm.divIterator.Adapters.inspect(\n`
+                      +`    ${iter},\n`
+                      +`    ${substackThunk(compiler, inspect, '_divIterItem')}\n`
+                      +`)\n`
                     , imports.TYPE_UNKNOWN)
                 },
 
                 iterTermCount(node, compiler, imports) {
-                    const iter = compiler.localVariables.next(),
-                        count = compiler.localVariables.next();
-                    // Loop Yield
-                    const src = compiler.source
-                    compiler.source = ""; compiler.yieldLoop()
-                    const yielder = compiler.source; compiler.source = src;
+                    const iter = compiler.descendInput(node.ITER).asUnknown();
                     return new imports.TypedInput(
-                 /*js*/`(yield* (function*() {\n`
-                      +`    const ${iter} = vm.divIterator.Type.toIterator(${compiler.descendInput(node.iter).asUnknown()});\n`
-                      +`    let ${count} = 0;\n`
-                      +`    while(!${iter}.done) {\n`
-                      +`        yield* ${iter}.yieldNext(thread);\n`
-                      +`        if(${iter}.done) break;\n`
-                      +`        ${count}++;\n`
-                      +`        ${yielder};\n`
-                      +`    };\n`
-                      +`    return ${count};\n`
-                      +`})())\n`
+                 /*js*/`(yield* vm.divIterator.Terminators.count(\n`
+                      +`    ${iter},\n`
+                      +`    function*() {${yieldLoop(compiler)}},\n`
+                      +`thread, target, runtime, stage))\n`
                     , imports.TYPE_UNKNOWN)
                 },
+
                 iterTermFold(node, compiler, imports) {
-                    const iter = compiler.localVariables.next(),
-                        acc = compiler.localVariables.next();
-                    // Loop Yield
-                    const src = compiler.source
-                    compiler.source = ""; compiler.yieldLoop()
-                    const yielder = compiler.source; compiler.source = src;
+                    const iter = compiler.descendInput(node.ITER).asUnknown();
+                    const init = compiler.descendInput(node.INIT).asUnknown();
+                    const fold = descendInput(compiler, node.FOLD, new imports.Frame(true, "_divIterAcc")).asUnknown();
                     return new imports.TypedInput(
-                /*js*/ `(yield* (function*() {\n`
-                      +`    const ${iter} = vm.divIterator.Type.toIterator(${compiler.descendInput(node.iter).asUnknown()});\n`
-                      +`    let ${acc} = ${compiler.descendInput(node.init).asUnknown()};\n`
-                      +`    thread._divIterItem ??= [];\n`
-                      +`    thread._divIterAcc ??= [];\n`
-                      +`    while(!${iter}.done) {\n`
-                      +`        thread._divIterItem.push(yield* ${iter}.yieldNext(thread));\n`
-                      +`        thread._divIterAcc.push(${acc});\n`
-                      +`        if(!${iter}.done) ${acc} = ${compiler.descendInput(node.fold).asUnknown()};\n`
-                      +`        thread._divIterItem.pop();\n`
-                      +`        thread._divIterAcc.pop();\n`
-                      +`        ${yielder};\n`
-                      +`    };\n`
-                      +`    return ${acc};\n`
-                      +`})())`
+                 /*js*/`(yield* vm.divIterator.Terminators.fold(\n`
+                      +`    ${iter}, ${init},\n`
+                      +`    ${inputThunk(compiler, fold, '_divIterAcc, _divIterItem')},\n`
+                      +`    function*() {${yieldLoop(compiler)}},\n`
+                      +`thread, target, runtime, stage))\n`
                     , imports.TYPE_UNKNOWN)
                 },
                 iterTermAny(node, compiler, imports) {
-                    const iter = compiler.localVariables.next();
-                    // Loop Yield
-                    const src = compiler.source
-                    compiler.source = ""; compiler.yieldLoop()
-                    const yielder = compiler.source; compiler.source = src;
+                    const iter = compiler.descendInput(node.ITER).asUnknown();
+                    const pred = descendInput(compiler, node.PRED, new imports.Frame(true, "_divIterItem")).asBoolean();
                     return new imports.TypedInput(
-                /*js*/ `(yield* (function*() {\n`
-                      +`    const ${iter} = vm.divIterator.Type.toIterator(${compiler.descendInput(node.iter).asUnknown()});\n`
-                      +`    thread._divIterItem ??= [];\n`
-                      +`    let any = false;`
-                      +`    while(!any && !${iter}.done) {\n`
-                      +`        thread._divIterItem.push(yield* ${iter}.yieldNext(thread));\n`
-                      +`        if(!${iter}.done) any ||= ${compiler.descendInput(node.pred).asUnknown()};\n`
-                      +`        thread._divIterItem.pop();\n`
-                      +`        ${yielder};\n`
-                      +`    };\n`
-                      +`    return any;\n`
-                      +`})())`
+                 /*js*/`(yield* vm.divIterator.Terminators.any(\n`
+                      +`    ${iter},\n`
+                      +`    ${inputThunk(compiler, pred, '_divIterItem')},\n`
+                      +`    function*() {${yieldLoop(compiler)}},\n`
+                      +`thread, target, runtime, stage))\n`
                     , imports.TYPE_UNKNOWN)
                 },
-                // Pretty much the dual of iterTermAny lol
                 iterTermAll(node, compiler, imports) {
-                    const iter = compiler.localVariables.next();
-                    // Loop Yield
-                    const src = compiler.source
-                    compiler.source = ""; compiler.yieldLoop()
-                    const yielder = compiler.source; compiler.source = src;
+                    const iter = compiler.descendInput(node.ITER).asUnknown();
+                    const pred = descendInput(compiler, node.PRED, new imports.Frame(true, "_divIterItem")).asBoolean();
                     return new imports.TypedInput(
-                /*js*/ `(yield* (function*() {\n`
-                      +`    const ${iter} = vm.divIterator.Type.toIterator(${compiler.descendInput(node.iter).asUnknown()});\n`
-                      +`    thread._divIterItem ??= [];\n`
-                      +`    let all = false;`
-                      +`    while(all && !${iter}.done) {\n`
-                      +`        thread._divIterItem.push(yield* ${iter}.yieldNext(thread));\n`
-                      +`        if(!${iter}.done) all &&= ${compiler.descendInput(node.pred).asUnknown()};\n`
-                      +`        thread._divIterItem.pop();\n`
-                      +`        ${yielder};\n`
-                      +`    };\n`
-                      +`    return all;\n`
-                      +`})())`
+                 /*js*/`(yield* vm.divIterator.Terminators.all(\n`
+                      +`    ${iter},\n`
+                      +`    ${inputThunk(compiler, pred, '_divIterItem')},\n`
+                      +`    function*() {${yieldLoop(compiler)}},\n`
+                      +`thread, target, runtime, stage))\n`
                     , imports.TYPE_UNKNOWN)
-                },
-                iterTermForEach: (node, compiler, imports) => {
-                    const iter = compiler.localVariables.next(),
-                        item = compiler.localVariables.next();
-                    const src = compiler.source
-                    compiler.source = ""
-                    compiler.descendStack(node.substack, new imports.Frame(true, "divIterator.iterTermForEach"))
-                    compiler.yieldLoop()
-                    const substack = compiler.source
-                    compiler.source = src + 
-                 /*js*/`const ${iter} = vm.divIterator.Type.toIterator(${compiler.descendInput(node.iter).asUnknown()});\n`
-                +/*js*/`thread._divIterItem ??= [];\n`
-                +/*js*/`thread._divIterItem.push(null);\n`
-                +/*js*/`while(!${iter}.done) {\n`
-                      +`    const ${item} = yield* ${iter}.yieldNext(thread);\n`
-                      +`    if(${iter}.done) break;\n`
-                      +`    thread._divIterItem[thread._divIterItem.length-1] = ${item};\n`
-                      +`    ${substack}\n`
-                      +`};\n`
-                +/*js*/`thread._divIterItem.pop();`
                 },
 
-                //iterItem: (node, compiler, imports) => new imports.TypedInput(`(thread._divIterItem ? thread._divIterItem.at(-1) : '')`, imports.TYPE_UNKNOWN)
+                iterTermForEach(node, compiler, imports) {
+                    const iterv = compiler.localVariables.next(),
+                          item = compiler.localVariables.next();
+                    const iter = compiler.descendInput(node.ITER).asUnknown();
+                    const substack = descendSubstack(compiler, node.SUBSTACK, new imports.Frame(true, "_divIterItem"));
+                    compiler.source +=
+                    /*js*/`const ${iterv} = vm.divIterator.Type.toIterator(${iter});\n`
+                   +/*js*/`for(let ${item} = yield* ${iterv}.next(thread, target, runtime, stage);\n`
+                         +`!${item}.done; ${item} = yield* ${iterv}.next(thread, target, runtime, stage)) {\n`
+                         +`    const _divIterItem = ${item}.value;\n`
+                         +`    ${substack}\n`
+                         +`}`
+                },
+                
+                iterBuilder(node, compiler, imports) {
+                    const state = compiler.descendInput(node.STATE).asUnknown();
+                    const next = descendSubstack(compiler, node.NEXT, new imports.Frame(false, "_divIterBuilder", true))
+                        +`\nreturn vm.divIterator.Item("");\n`
+                    return new imports.TypedInput(
+                 /*js*/`vm.divIterator.Iterables.iterBuilder(\n`
+                      +`    ${state},\n`
+                      +`    ${substackThunk(compiler, next, '_divIterState')}\n`
+                      +`)\n`
+                    , imports.TYPE_UNKNOWN)
+                },
+                iterBuilderGetState(node, compiler, imports) {
+                    if(compiler.frames.some(f => f.parent === "_divIterBuilder"))
+                        return new imports.TypedInput("_divIterState.state", imports.TYPE_UNKNOWN);
+                    return new imports.TypedInput("''", imports.TYPE_UNKNOWN);
+                },
+                iterBuilderSetState(node, compiler, imports) {
+                    if(!compiler.frames.some(f => f.parent === "_divIterBuilder")) return;
+                    const state = compiler.descendInput(node.STATE).asUnknown()
+                    compiler.source += `_divIterState.state = ${state};`
+                },
+                iterBuilderItem(node, compiler, imports) {
+                    if(!compiler.frames.some(f => f.parent === "_divIterBuilder")) return;
+                    const item = compiler.descendInput(node.ITEM).asUnknown()
+                    compiler.source += `return vm.divIterator.Item(${item});`
+                },
+                iterBuilderDone(node, compiler, imports) {
+                    if(!compiler.frames.some(f => f.parent === "_divIterBuilder")) return;
+                    compiler.source += `return vm.divIterator.Done();`
+                },
             }
         })
 
+        iterItem() {
+            return "noop"
+        }
+        iterAcc() {
+            return "noop"
+        }
 
         iterAdvance() {
-            return 'noop'
+            return "noop"
         }
-
         iterNext() {
-            return 'noop'
+            return "noop"
         }
-
-        iterDone({iter}) {
-            iter = IteratorType.toIterator(iter)
-            return iter.done
+        iterDone({ITER}) {
+            return IteratorType.toIterator(ITER).done
+        }
+        iterClone({ITER}) {
+            return IteratorType.toIterator(ITER).clone()
         }
 
         // Iterables
-        iterOver({itrbl}) {
-            if(itrbl instanceof IteratorType) return itrbl;
-            //if(itrbl[divIterator.Interface.toIter]) return itrbl[divIterator.Interface.toIter]()
-            return [...vm.runtime.divIterables.values()].find(({type}) => type == itrbl.constructor)?.toIter?.apply(itrbl) ?? new IteratorType()
-        }
-
-        iterCollectToType() {
-            return 'noop'
-        }
-
         // Note: set end to 1e308 for a practically infinite iterator.
-        iterRange({start, end}) {
-            return new IteratorType({kind: "Range", args: [start, end]}, function*() {
-                if(end < start) for(let i = start; i >= end; i--) yield i;
-                else for(let i = start; i <= end; i++) yield i;
-            })
+        iterRange({START, END}) {
+            return divIterator.Iterables.range(START, END)
+        }
+        iterIterOver({VAL}) {
+            return divIterator.Iterables.iterOver(VAL)
+        }
+        iterCollectTo() {
+            return "noop"
         }
 
         // Adapters
@@ -924,157 +1196,72 @@
             return "noop"
         }
 
-        iterAdapterEnum({iter}) {
-            iter = IteratorType.toIterator(iter)
-            return iter.chainIter("Enumerate", function*() {
-                for(let i = 1; !iter.done; i++) {
-                    const item = yield* iter.yieldNext(this.thread)
-                    if(iter.done) return
-                    yield new Array([i, item])
-                }
-            })
+        iterAdapterEnum({ITER}) {
+            return divIterator.Adapters.enum(ITER)
         }
-        iterAdapterCycle({iter}) {
-            iter = IteratorType.toIterator(iter)
-            return iter.chainIter("Cycle", function*() {
-                let buffer = []
-                while(!iter.done) {
-                    const item = yield* iter.yieldNext(this.thread)
-                    if(iter.done) break
-                    buffer.push(item)
-                    yield item
-                }
-                if(buffer.length === 0) return
-                for(let i = 0;; i = (i+1) % buffer.length) yield buffer[i]
-            })
+        iterAdapterCycle({ITER}) {
+            return divIterator.Adapters.cycle(ITER)
         }
 
-        iterAdapterTake({iter, count}) {
-            iter = IteratorType.toIterator(iter)
-            return iter.chainIter({kind:"Take", args: [count]}, function*() {
-                for(let i = 0; i < count && !iter.done; i++) yield yield* iter.yieldNext(this.thread)
-            })
+        iterAdapterTake({ITER, COUNT}) {
+            return divIterator.Adapters.take(ITER, COUNT)
         }
-        iterAdapterSkip({iter, count}) {
-            iter = IteratorType.toIterator(iter)
-            return iter.chainIter({kind:"Skip", args: [count]}, function*() {
-                for(let i = 0; i < count && !iter.done; i++) yield* iter.yieldNext(this.thread)
-                for(;;) {
-                    const item = yield* iter.yieldNext(this.thread)
-                    if(iter.done) break
-                    yield item;
-                }
-            })
+        iterAdapterSkip({ITER, COUNT}) {
+            return divIterator.Adapters.skip(ITER, COUNT)
         }
-        iterAdapterStepBy({iter, count}) {
-            iter = IteratorType.toIterator(iter)
-            return iter.chainIter({kind:"StepBy", args: [count]}, function*() {
-                for(let i = 0; !iter.done; i++) {
-                    const item = yield* iter.yieldNext(this.thread)
-                    if(iter.done) return
-                    if(i % count == 0) yield item
-                }
-            })
+        iterAdapterStepBy({ITER, STEP}) {
+            return divIterator.Adapters.stepBy(ITER, STEP)
         }
 
-        iterAdapterChain({iter1, iter2}) {
-            iter1 = IteratorType.toIterator(iter1)
-            iter2 = IteratorType.toIterator(iter2)
-            return iter1.chainIter({kind: "Chain", args: [iter2]}, function*() {
-                for(;;) {
-                    const item = yield* iter1.yieldNext(this.thread)
-                    if(iter1.done) break
-                    yield item;
-                }
-                for(;;) {
-                    const item = yield* iter2.yieldNext(this.thread)
-                    if(iter2.done) break
-                    yield item;
-                }
-            })
+        iterAdapterChain({ITER1, ITER2}) {
+            return divIterator.Adapters.chain(ITER1, ITER2)
         }
-        iterAdapterZip({iter1, iter2}) {
-            iter1 = IteratorType.toIterator(iter1)
-            iter2 = IteratorType.toIterator(iter2)
-            return iter1.chainIter({kind: "Zip", args: [iter2]}, function*() {
-                for(;;) {
-                    const item1 = yield* iter1.yieldNext(this.thread)
-                    if(iter1.done) return
-                    const item2 = yield* iter2.yieldNext(this.thread)
-                    if(iter2.done) return
-                    yield new Array([item1, item2])
-                }
-            })
+        iterAdapterZip({ITER1, ITER2}) {
+            return divIterator.Adapters.zip(ITER1, ITER2)
         }
-
-        iterAdapterFlatten({iter, depth}) {
-            iter = IteratorType.toIterator(iter)
-            depth = Math.floor(depth)
-            if(depth === 0) return iter.chainIter({kind: "Flatten", args: [0]}, function*() {yield* iter})
-            return iter.chainIter({kind: "Flatten", args: [depth]}, function*() {
-                const flat = function*(iter, depth) {
-                    if(depth === 0) yield* iter;
-                    else while(!iter.done) {
-                        const item = yield* iter.yieldNext(this.thread)
-                        if(iter.done) return;
-                        if(item instanceof IteratorType) yield* flat(item, depth-1);
-                        const toIter = [...vm.runtime.divIterables.values()].find(({type}) => type == item.constructor)?.toIter
-                        if(toIter) yield* flat(toIter?.apply(itrbl), depth-1)
-                        else yield item
-                    }
-                }.bind(this)
-                const flattened = flat(iter, depth);
-                for(;;) {
-                    const item = yield* flattened.yieldNext(this.thread)
-                    if(flattened.done) break
-                    yield item;
-                }
-            })
+        iterAdapterCross({ITER1, ITER2}) {
+            return divIterator.Adapters.cross(ITER1, ITER2)
         }
+        
         iterAdapterInspect() {
-            return 'noop'
+            return "noop"
         }
 
-        // Iterator Terminators
+        // Terminators
         iterTermCount() {
-            return 'noop'
+            return "noop"
         }
 
         iterTermFold() {
-            return 'noop'
+            return "noop"
         }
-
         iterTermAny() {
-            return 'noop'
+            return "noop"
         }
-
         iterTermAll() {
-            return 'noop'
-        }
-
-        iterItem({}, util) {
-            return util.thread._divIterItem ? util.thread._divIterItem.at(-1) : ""
-        }
-
-        iterAcc({}, util) {
-            return util.thread._divIterAcc ? util.thread._divIterAcc.at(-1) : ""
+            return "noop"
         }
 
         iterTermForEach() {
-            return 'noop'
+            return "noop"
         }
-        
-        // Array specific blocks
-        // iterArray({arr}) {
-        //     const {array} = Array.toArray(arr)
-        //     return new IteratorType("Array", function*() {
-        //         for(let i = 0; i < array.length; i++) yield array[i]
-        //     })
-        // }
 
-        // iterCollectToArray() {
-        //     return 'noop'
-        // }
+        // Builder
+        iterBuilder() {
+            return "noop"
+        }
+        iterBuilderGetState() {
+            return "noop"
+        }
+        iterBuilderSetState() {
+            return "noop"
+        }
+        iterBuilderItem() {
+            return "noop"
+        }
+        iterBuilderDone() {
+            return "noop"
+        }
     }
     Scratch.extensions.register(new Extension())
 })(Scratch)
