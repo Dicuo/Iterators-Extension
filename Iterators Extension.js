@@ -541,7 +541,17 @@
                     },
                     ...divIterator.Block
                 },
-
+                '---',
+                {
+                    opcode: 'iterTermForEach',
+                    text: 'for [I] of [ITER]',
+                    blockType: BlockType.LOOP,
+                    branchCount: 1,
+                    arguments: {
+                        ITER: divIterator.Argument,
+                        I: {fillIn: 'iterItem'},
+                    },
+                },
 
                 {
                     blockType: BlockType.LABEL,
@@ -816,17 +826,6 @@
                         IMG: { type: Scratch.ArgumentType.IMAGE, dataURI: arrowURI }
                     }
                 },
-                '---',
-                {
-                    opcode: 'iterTermForEach',
-                    text: 'for [I] of [ITER]',
-                    blockType: BlockType.LOOP,
-                    branchCount: 1,
-                    arguments: {
-                        ITER: divIterator.Argument,
-                        I: {fillIn: 'iterItem'},
-                    },
-                },
             ],
             menus: {
                 fromIter: {
@@ -873,12 +872,56 @@
                     }
                 },
 
+                iterTermForEach: (generator, block) => {
+                    generator.script.yields = true
+                    return {
+                        kind: 'stack',
+                        ITER: generator.descendInputOfBlock(block, 'ITER'),
+                        SUBSTACK: generator.descendSubstack(block, 'SUBSTACK')
+                    }
+                },
+
                 iterCollectTo: (generator, block) => {
                     generator.script.yields = true
                     return {
                         kind: 'input',
                         ITER: generator.descendInputOfBlock(block, 'ITER'),
                         TYPE: block.fields.TYPE.value
+                    }
+                },
+                
+                iterBuilder: (generator, block) => {
+                    generator.script.yields = true
+                    return {
+                        kind: 'input',
+                        STATE: generator.descendInputOfBlock(block, 'STATE'),
+                        NEXT: generator.descendSubstack(block, 'SUBSTACK'),
+                    }
+                },
+                iterBuilderGetState: (generator, block) => {
+                    generator.script.yields = true
+                    return {
+                        kind: 'input',
+                    }
+                },
+                iterBuilderSetState: (generator, block) => {
+                    generator.script.yields = true
+                    return {
+                        kind: 'stack',
+                        STATE: generator.descendInputOfBlock(block, 'STATE'),
+                    }
+                },
+                iterBuilderItem: (generator, block) => {
+                    generator.script.yields = true
+                    return {
+                        kind: 'stack',
+                        ITEM: generator.descendInputOfBlock(block, 'ITEM'),
+                    }
+                },
+                iterBuilderDone: (generator, block) => {
+                    generator.script.yields = true
+                    return {
+                        kind: 'stack',
                     }
                 },
 
@@ -941,50 +984,6 @@
                         PRED: generator.descendInputOfBlock(block, 'PRED'),
                     }
                 },
-
-                iterTermForEach: (generator, block) => {
-                    generator.script.yields = true
-                    return {
-                        kind: 'stack',
-                        ITER: generator.descendInputOfBlock(block, 'ITER'),
-                        SUBSTACK: generator.descendSubstack(block, 'SUBSTACK')
-                    }
-                },
-                
-                iterBuilder: (generator, block) => {
-                    generator.script.yields = true
-                    return {
-                        kind: 'input',
-                        STATE: generator.descendInputOfBlock(block, 'STATE'),
-                        NEXT: generator.descendSubstack(block, 'SUBSTACK'),
-                    }
-                },
-                iterBuilderGetState: (generator, block) => {
-                    generator.script.yields = true
-                    return {
-                        kind: 'input',
-                    }
-                },
-                iterBuilderSetState: (generator, block) => {
-                    generator.script.yields = true
-                    return {
-                        kind: 'stack',
-                        STATE: generator.descendInputOfBlock(block, 'STATE'),
-                    }
-                },
-                iterBuilderItem: (generator, block) => {
-                    generator.script.yields = true
-                    return {
-                        kind: 'stack',
-                        ITEM: generator.descendInputOfBlock(block, 'ITEM'),
-                    }
-                },
-                iterBuilderDone: (generator, block) => {
-                    generator.script.yields = true
-                    return {
-                        kind: 'stack',
-                    }
-                },
             },
             js: {
                 iterItem(node, compiler, imports) {
@@ -1014,6 +1013,21 @@
                       +`    return ${item}.done ? '' : ${item}.value;\n`
                       +`})())`
                     , imports.TYPE_UNKNOWN)
+                },
+
+                iterTermForEach(node, compiler, imports) {
+                    const iterv = compiler.localVariables.next(),
+                          item = compiler.localVariables.next();
+                    const iter = compiler.descendInput(node.ITER).asUnknown();
+                    const substack = descendSubstack(compiler, node.SUBSTACK, new imports.Frame(true, "_divIterItem"));
+                    compiler.source +=
+                    /*js*/`const ${iterv} = vm.divIterator.Type.toIterator(${iter});\n`
+                   +/*js*/`for(let ${item} = yield* ${iterv}.next(thread, target, runtime, stage);\n`
+                         +`!${item}.done; ${item} = yield* ${iterv}.next(thread, target, runtime, stage)) {\n`
+                         +`    const _divIterItem = ${item}.value;\n`
+                         +`    ${substack}\n`
+                         +`    ${yieldLoop(compiler)}\n`
+                         +`}`
                 },
 
                 iterCollectTo(node, compiler, imports) {
@@ -1135,21 +1149,6 @@
                       +`thread, target, runtime, stage))\n`
                     , imports.TYPE_UNKNOWN)
                 },
-
-                iterTermForEach(node, compiler, imports) {
-                    const iterv = compiler.localVariables.next(),
-                          item = compiler.localVariables.next();
-                    const iter = compiler.descendInput(node.ITER).asUnknown();
-                    const substack = descendSubstack(compiler, node.SUBSTACK, new imports.Frame(true, "_divIterItem"));
-                    compiler.source +=
-                    /*js*/`const ${iterv} = vm.divIterator.Type.toIterator(${iter});\n`
-                   +/*js*/`for(let ${item} = yield* ${iterv}.next(thread, target, runtime, stage);\n`
-                         +`!${item}.done; ${item} = yield* ${iterv}.next(thread, target, runtime, stage)) {\n`
-                         +`    const _divIterItem = ${item}.value;\n`
-                         +`    ${substack}\n`
-                         +`    ${yieldLoop(compiler)}\n`
-                         +`}`
-                },
             }
         })
 
@@ -1171,6 +1170,10 @@
         }
         iterClone({ITER}) {
             return IteratorType.toIterator(ITER).clone()
+        }
+
+        iterTermForEach() {
+            return "noop"
         }
 
         // Iterables
@@ -1253,10 +1256,6 @@
             return "noop"
         }
         iterTermAll() {
-            return "noop"
-        }
-
-        iterTermForEach() {
             return "noop"
         }
     }
