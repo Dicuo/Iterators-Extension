@@ -47,7 +47,8 @@
             const root = document.createElement('div');
             root.style.display = 'flex';
             root.style.flexDirection = 'column';
-            root.appendChild(span(`${this.getIterChain()} Iterator`));
+            const s = span(`${this.getIterChain()} Iterator`); s.style.fontStyle = "italic";
+            root.appendChild(s);
             if(this.consumed > 0 || this.done) {
                 let text = ''
                 if(this.consumed > 0) text += `consumed: ${this.consumed}` + (this.done ? " " : "")
@@ -60,7 +61,8 @@
             const root = document.createElement('div');
             root.style.display = 'flex';
             root.style.flexDirection = 'column';
-            root.appendChild(span(`${this.getIterKind()} Iterator`));
+            const s = span(`${this.getIterKind()} Iterator`); s.style.fontStyle = "italic";
+            root.appendChild(s);
             if(this.consumed > 0 || this.done) {
                 let text = ''
                 if(this.consumed > 0) text += `consumed: ${this.consumed}` + (this.done ? " " : "")
@@ -323,39 +325,36 @@
                 for(let i = 0;; i++) {
                     const item = yield* iter.next(thread, target, runtime, stage)
                     if(item.done) return i
-                    // With this one simple trick, you can make
-                    // your loops 10x faster!1!!1
-                    // (Is this unsafe?)
-                    if((i+1) % 10 == 0) yield* yieldLoop()
+                    yield* yieldLoop()
                 }
             },
 
             *fold(iter, init, fold, yieldLoop, thread, target, runtime, stage) {
                 iter = IteratorType.toIterator(iter)
                 let acc = init
-                for(let i = 0;; i++) {
+                for(;;) {
                     const item = yield* iter.next(thread, target, runtime, stage)
                     if(item.done) return acc
                     acc = yield* fold(acc, item.value, thread, target, runtime, stage)
-                    if((i+1) % 10 == 0) yield* yieldLoop()
+                    yield* yieldLoop()
                 }
             },
             *any(iter, pred, yieldLoop, thread, target, runtime, stage) {
                 iter = IteratorType.toIterator(iter)
-                for(let i = 0;; i++) {
+                for(;;) {
                     const item = yield* iter.next(thread, target, runtime, stage)
                     if(item.done) return false
                     if(yield* pred(item.value, thread, target, runtime, stage)) return true
-                    if((i+1) % 10 == 0) yield* yieldLoop()
+                    yield* yieldLoop()
                 }
             },
             *all(iter, pred, yieldLoop, thread, target, runtime, stage) {
                 iter = IteratorType.toIterator(iter)
-                for(let i = 0;; i++) {
+                for(;;) {
                     const item = yield* iter.next(thread, target, runtime, stage)
                     if(item.done) return true
                     if(!(yield* pred(item.value, thread, target, runtime, stage))) return false
-                    if((i+1) % 10 == 0) yield* yieldLoop()
+                    yield* yieldLoop()
                 }
             },
             *collectTo(iter, type, yieldLoop, thread, target, runtime, stage) {
@@ -456,7 +455,7 @@
             if(!vm.pmVersion) {
                 Scratch.gui.getBlockly().then(ScratchBlocks => {
                     ScratchBlocks.BlockSvg.registerCustomShape("divIterator", {
-                        emptyInputPath: `m 16 0 h 15 q 3 0 5 2 l 8 8 q 3 3 3 4 v 4 q 0 1 -3 4 l -8 8 q -2 2 -5 2 h -15 h -11 c -2 0 -3 0 -4 -1 s -1 -3 0 -4 l 9 -9 v -4 l -8 -8 c -2 -2 -2 -4 -1 -5 s 2 -1 4 -1 h 11 z`,
+                        emptyInputPath: ScratchBlocks.BlockSvg.getInputShapeInfo_(Scratch.BlockShape.ARROW).path,// `m 16 0 h 15 q 3 0 5 2 l 8 8 q 3 3 3 4 v 4 q 0 1 -3 4 l -8 8 q -2 2 -5 2 h -15 h -11 c -2 0 -3 0 -4 -1 s -1 -3 0 -4 l 9 -9 v -4 l -8 -8 c -2 -2 -2 -4 -1 -5 s 2 -1 4 -1 h 11 z`,
                         leftPath(block) {
                             const edgeWidth = block.height / 2;
                             const h = -2*Math.max(edgeWidth - 14*1.25, 0);
@@ -583,6 +582,62 @@
                     blockType: BlockType.REPORTER,
                     blockShape: BlockShape.ROUND,
                     allowDropAnywhere: true,
+                },
+
+                '---',
+                {
+                    opcode: 'iterBuilder',
+                    text: 'iterator builder with [S] = [STATE]',
+                    branchCount: 1,
+                    arguments: {
+                        STATE: {
+                            type: Scratch.ArgumentType.STRING,
+                            exemptFromNormalization: true
+                        },
+                        S: {fillIn: 'iterBuilderGetState'},
+                    },
+                    branches: [{}],
+                    ...divIterator.Block
+                },
+                {
+                    opcode: 'iterBuilderGetState',
+                    text: 'state',
+                    blockType: BlockType.REPORTER,
+                    hideFromPalette: true,
+                    allowDropAnywhere: true,
+                    canDragDuplicate: true
+                },
+                {
+                    opcode: 'iterBuilderSetState',
+                    text: 'set state to [STATE]',
+                    disableMonitor: true,
+                    blockType: BlockType.COMMAND,
+                    arguments: {
+                        STATE: {
+                            type: Scratch.ArgumentType.STRING,
+                            exemptFromNormalization: true
+                        }
+                    }
+                },
+                {
+                    opcode: 'iterBuilderItem',
+                    text: 'return item [ITEM]',
+                    disableMonitor: true,
+                    blockType: BlockType.COMMAND,
+                    isTerminal: true,
+                    arguments: {
+                        ITEM: {
+                            type: Scratch.ArgumentType.STRING,
+                            exemptFromNormalization: true
+                        }
+                    }
+                },
+                {
+                    opcode: 'iterBuilderDone',
+                    text: 'finish iterator',
+                    disableMonitor: true,
+                    blockType: BlockType.COMMAND,
+                    isTerminal: true,
                 },
 
                 {
@@ -771,65 +826,6 @@
                         ITER: divIterator.Argument,
                         I: {fillIn: 'iterItem'},
                     },
-                },
-
-                {
-                    blockType: BlockType.LABEL,
-                    text: 'Iterator Builder'
-                },
-                {
-                    opcode: 'iterBuilder',
-                    text: 'iterator builder with [S] = [STATE]',
-                    branchCount: 1,
-                    arguments: {
-                        STATE: {
-                            type: Scratch.ArgumentType.STRING,
-                            exemptFromNormalization: true
-                        },
-                        S: {fillIn: 'iterBuilderGetState'},
-                    },
-                    branches: [{}],
-                    ...divIterator.Block
-                },
-                {
-                    opcode: 'iterBuilderGetState',
-                    text: 'state',
-                    blockType: BlockType.REPORTER,
-                    hideFromPalette: true,
-                    allowDropAnywhere: true,
-                    canDragDuplicate: true
-                },
-                {
-                    opcode: 'iterBuilderSetState',
-                    text: 'set state to [STATE]',
-                    disableMonitor: true,
-                    blockType: BlockType.COMMAND,
-                    arguments: {
-                        STATE: {
-                            type: Scratch.ArgumentType.STRING,
-                            exemptFromNormalization: true
-                        }
-                    }
-                },
-                {
-                    opcode: 'iterBuilderItem',
-                    text: 'return item [ITEM]',
-                    disableMonitor: true,
-                    blockType: BlockType.COMMAND,
-                    isTerminal: true,
-                    arguments: {
-                        ITEM: {
-                            type: Scratch.ArgumentType.STRING,
-                            exemptFromNormalization: true
-                        }
-                    }
-                },
-                {
-                    opcode: 'iterBuilderDone',
-                    text: 'finish iterator',
-                    disableMonitor: true,
-                    blockType: BlockType.COMMAND,
-                    isTerminal: true,
                 },
             ],
             menus: {
@@ -1029,6 +1025,37 @@
                       +`thread, target, runtime, stage))\n`
                     , imports.TYPE_UNKNOWN)
                 },
+                
+                iterBuilder(node, compiler, imports) {
+                    const state = compiler.descendInput(node.STATE).asUnknown();
+                    const next = descendSubstack(compiler, node.NEXT, new imports.Frame(false, "_divIterBuilder", true))
+                        +`\nreturn vm.divIterator.Item("");\n`
+                    return new imports.TypedInput(
+                 /*js*/`vm.divIterator.Iterables.iterBuilder(\n`
+                      +`    ${state},\n`
+                      +`    ${substackThunk(compiler, next, '_divIterState')}\n`
+                      +`)\n`
+                    , imports.TYPE_UNKNOWN)
+                },
+                iterBuilderGetState(node, compiler, imports) {
+                    if(compiler.frames.some(f => f.parent === "_divIterBuilder"))
+                        return new imports.TypedInput("_divIterState.state", imports.TYPE_UNKNOWN);
+                    return new imports.TypedInput("''", imports.TYPE_UNKNOWN);
+                },
+                iterBuilderSetState(node, compiler, imports) {
+                    if(!compiler.frames.some(f => f.parent === "_divIterBuilder")) return;
+                    const state = compiler.descendInput(node.STATE).asUnknown()
+                    compiler.source += `_divIterState.state = ${state};`
+                },
+                iterBuilderItem(node, compiler, imports) {
+                    if(!compiler.frames.some(f => f.parent === "_divIterBuilder")) return;
+                    const item = compiler.descendInput(node.ITEM).asUnknown()
+                    compiler.source += `return vm.divIterator.Item(${item});`
+                },
+                iterBuilderDone(node, compiler, imports) {
+                    if(!compiler.frames.some(f => f.parent === "_divIterBuilder")) return;
+                    compiler.source += `return vm.divIterator.Done();`
+                },
 
                 iterAdapterMap(node, compiler, imports) {
                     const iter = compiler.descendInput(node.ITER).asUnknown();
@@ -1120,38 +1147,8 @@
                          +`!${item}.done; ${item} = yield* ${iterv}.next(thread, target, runtime, stage)) {\n`
                          +`    const _divIterItem = ${item}.value;\n`
                          +`    ${substack}\n`
+                         +`    ${yieldLoop(compiler)}\n`
                          +`}`
-                },
-                
-                iterBuilder(node, compiler, imports) {
-                    const state = compiler.descendInput(node.STATE).asUnknown();
-                    const next = descendSubstack(compiler, node.NEXT, new imports.Frame(false, "_divIterBuilder", true))
-                        +`\nreturn vm.divIterator.Item("");\n`
-                    return new imports.TypedInput(
-                 /*js*/`vm.divIterator.Iterables.iterBuilder(\n`
-                      +`    ${state},\n`
-                      +`    ${substackThunk(compiler, next, '_divIterState')}\n`
-                      +`)\n`
-                    , imports.TYPE_UNKNOWN)
-                },
-                iterBuilderGetState(node, compiler, imports) {
-                    if(compiler.frames.some(f => f.parent === "_divIterBuilder"))
-                        return new imports.TypedInput("_divIterState.state", imports.TYPE_UNKNOWN);
-                    return new imports.TypedInput("''", imports.TYPE_UNKNOWN);
-                },
-                iterBuilderSetState(node, compiler, imports) {
-                    if(!compiler.frames.some(f => f.parent === "_divIterBuilder")) return;
-                    const state = compiler.descendInput(node.STATE).asUnknown()
-                    compiler.source += `_divIterState.state = ${state};`
-                },
-                iterBuilderItem(node, compiler, imports) {
-                    if(!compiler.frames.some(f => f.parent === "_divIterBuilder")) return;
-                    const item = compiler.descendInput(node.ITEM).asUnknown()
-                    compiler.source += `return vm.divIterator.Item(${item});`
-                },
-                iterBuilderDone(node, compiler, imports) {
-                    if(!compiler.frames.some(f => f.parent === "_divIterBuilder")) return;
-                    compiler.source += `return vm.divIterator.Done();`
                 },
             }
         })
@@ -1185,6 +1182,23 @@
             return divIterator.Iterables.iterOver(VAL)
         }
         iterCollectTo() {
+            return "noop"
+        }
+
+        // Builder
+        iterBuilder() {
+            return "noop"
+        }
+        iterBuilderGetState() {
+            return "noop"
+        }
+        iterBuilderSetState() {
+            return "noop"
+        }
+        iterBuilderItem() {
+            return "noop"
+        }
+        iterBuilderDone() {
             return "noop"
         }
 
@@ -1243,23 +1257,6 @@
         }
 
         iterTermForEach() {
-            return "noop"
-        }
-
-        // Builder
-        iterBuilder() {
-            return "noop"
-        }
-        iterBuilderGetState() {
-            return "noop"
-        }
-        iterBuilderSetState() {
-            return "noop"
-        }
-        iterBuilderItem() {
-            return "noop"
-        }
-        iterBuilderDone() {
             return "noop"
         }
     }
