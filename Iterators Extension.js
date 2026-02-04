@@ -836,7 +836,9 @@
         })
 
         getFromIterMenu() {
-            return ["String", "Array", ...(vm.dogeiscutObject ? ["Object"] : [])].map(s => ({
+            let more = []
+            if(vm.divFromIter) more = [...vm.divFromIter.keys()]
+            return ["String", "Array", ...(vm.dogeiscutObject ? ["Object"] : []), ...more].map(s => ({
                 text: s,
                 value: s,
             }))
