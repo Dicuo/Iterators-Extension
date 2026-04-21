@@ -26,6 +26,17 @@
         return el
     }
 
+    function escapeHTML(unsafe) {
+        // Copied from jwTargets
+        
+        return unsafe
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+
     class IteratorType {
         customId = "divIterator"
         consumed = 0
